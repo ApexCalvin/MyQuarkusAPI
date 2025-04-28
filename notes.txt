@@ -1,0 +1,22 @@
+Run from project root
+./mvnw quarkus:dev
+
+Open with swagger
+http://localhost:8080/q/swagger-ui
+
+build & skip tests
+mvn clean install -DskipTests
+
+h2 console
+http://localhost:8080/h2
+
+To-Do
+------
+
+Write tests
+
+@Valid
+
+Liquibase to populate data
+
+MapStruct DTO mapper
