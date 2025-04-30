@@ -4,21 +4,27 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import io.smallrye.common.constraint.NotNull;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 @Entity
 public class Hero extends PanacheEntity{
 
+    @Size(max = 10, message = "Alias cannot exceed 10 characters")
+    @NotBlank
+    @Column(name = "alias", nullable = false, length = 10)
     public String alias;
 
+    @NotBlank
     public String name;
 
+    @NotNull
+    @Column(name = "can_fly", nullable = false)
     public Boolean canFly;
 }

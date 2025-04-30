@@ -11,7 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity
 public class HeroResponse extends PanacheEntity{
 
     public String alias;

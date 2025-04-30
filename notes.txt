@@ -1,21 +1,53 @@
 Run from project root
 ./mvnw quarkus:dev
 
-Open with swagger
-http://localhost:8080/q/swagger-ui
-
 build & skip tests
 mvn clean install -DskipTests
+
+build and create a .jar file in target dir
+mvn clean package
+
+Open with swagger
+http://localhost:8080/q/swagger-ui
 
 h2 console
 http://localhost:8080/h2
 
+quarkus ui
+http://localhost:8080/q/quarkus-ui
+
+* remember to comment out " * " from .dockerignore *
+build image
+docker build -t <name of your image> .
+
+rebuild and replace image
+docker build -t <name of your image>:latest .
+
+check image
+docker images
+
+build an instance (containerize) of your image
+-t: attaches an interactive terminal so you can see logs or interact if needed
+--rm: auto removes the container when it exits (optional but useful during dev)
+-p <destination port>:<source port> maps port that your app listens to
+docker run -p 8080:8080 quarkus-demo
+
+---
+Error:
+
+AzureAD+CalvinTran@tp038 MINGW64 ~/Desktop/quarkus-demo (main)
+$ docker run -p 8080:8080 quarkus-demo
+no main manifest attribute, in app.jar
+
+When hard coding *-run.jar
+AzureAD+CalvinTran@tp038 MINGW64 ~/Desktop/quarkus-demo (main)
+$ docker run -p 8080:8080 quarkus-demo
+Error: Could not find or load main class io.quarkus.bootstrap.runner.QuarkusEntryPoint
+Caused by: java.lang.ClassNotFoundException: io.quarkus.bootstrap.runner.QuarkusEntryPoint
+
+
 To-Do
 ------
-
-Write tests
-
-@Valid
 
 Liquibase to populate data
 

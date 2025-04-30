@@ -1,0 +1,5 @@
+import org.ksm.dto.HeroRequest;
+
+public class HeroResource {
+
+}

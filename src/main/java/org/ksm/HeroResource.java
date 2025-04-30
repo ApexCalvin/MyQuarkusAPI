@@ -2,6 +2,9 @@ package org.ksm;
 
 import java.util.List;
 
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.ksm.dto.HeroRequest;
+
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -34,6 +37,7 @@ public class HeroResource {
     }
 
     @GET
+    @Operation(summary = "test summary for getAll", description = "test description for getAll")
     public List<Hero> getAll() {
          return heroRepository.listAll();
     }
@@ -46,11 +50,10 @@ public class HeroResource {
 
     @POST
     @Transactional
-    public Response create(Hero hero) {
+    public Response create(@Valid Hero hero) {
         hero.id = null;
         hero.persist();
-        Response response = Response.status(Status.CREATED).build();
-        return response;
+        return Response.status(Status.CREATED).entity(hero).build();
     }
 
     @DELETE
@@ -66,29 +69,31 @@ public class HeroResource {
     @PUT
     @Path("/{id}")
     @Transactional
-    public Response replaceById(@PathParam("id") Long heroId, Hero hero) {
+    public Response replaceById(@PathParam("id") Long heroId, @Valid Hero hero) {
         Hero exist = heroRepository.findById(heroId);
         
         if (exist == null) return Response.status(Status.NOT_FOUND).build();
         
-        exist.alias = hero.alias;
-        exist.name = hero.name;
-        exist.canFly = hero.canFly;
-        return Response.status(Status.OK).build();
+        exist.setAlias(hero.getAlias());
+        exist.setName(hero.getName());
+        exist.setCanFly(hero.getCanFly());
+        
+        return Response.status(Status.OK).entity(exist).build();
     }
 
     @PATCH
     @Path("/{id}")
     @Transactional
-    public Response updateById(@PathParam("id") Long heroId, Hero hero) {
+    public Response updateById(@PathParam("id") Long heroId, @Valid HeroRequest HeroRequest) {
         Hero exist = heroRepository.findById(heroId);
 
         if (exist == null) return Response.status(Status.NOT_FOUND).build();
 
-        if (hero.alias != null) exist.alias = hero.alias;
-        if (hero.name != null) exist.name = hero.name;
-        if (hero.canFly != null) exist.canFly = hero.canFly;
-        return Response.status(Status.OK).build();
+        if (HeroRequest.getAlias() != null) exist.setAlias(HeroRequest.getAlias());
+        if (HeroRequest.getName() != null) exist.setName(HeroRequest.getName());
+        if (HeroRequest.getCanFly() != null) exist.setCanFly(HeroRequest.getCanFly());
+
+        return Response.status(Status.OK).entity(exist).build();
     }
 
 }
