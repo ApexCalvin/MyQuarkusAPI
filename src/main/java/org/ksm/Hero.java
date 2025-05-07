@@ -19,12 +19,12 @@ public class Hero extends PanacheEntity{
     @Size(max = 10, message = "Alias cannot exceed 10 characters")
     @NotBlank
     @Column(name = "alias", nullable = false, length = 10)
-    public String alias;
+    private String alias;
 
     @NotBlank
-    public String name;
+    private String name;
 
     @NotNull
     @Column(name = "can_fly", nullable = false)
-    public Boolean canFly;
+    private Boolean canFly;
 }

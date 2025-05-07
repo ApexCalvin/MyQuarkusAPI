@@ -20,14 +20,15 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.validation.Valid;
 
+
 @Path("/hero")
-@Consumes("application/json")
-@Produces("application/json")
 public class HeroResource {
     
     @Inject
     HeroRepository heroRepository;
 
+    @Consumes("application/json")
+    @Produces("application/json")
     @GET
     @Path("/load")
     @Transactional
@@ -36,18 +37,24 @@ public class HeroResource {
         new Hero("ironman", "tony", true).persist();
     }
 
+    @Consumes("application/json")
+    @Produces("application/json")       
     @GET
     @Operation(summary = "test summary for getAll", description = "test description for getAll")
     public List<Hero> getAll() {
          return heroRepository.listAll();
     }
 
+    @Consumes("application/json")
+    @Produces("application/json")
     @GET
     @Path("/{id}")
     public Hero getById(@PathParam("id") Long heroId) {
         return heroRepository.findById(heroId);
     }
 
+    @Consumes("application/json")
+    @Produces("application/json")
     @POST
     @Transactional
     public Response create(@Valid Hero hero) {
@@ -56,6 +63,8 @@ public class HeroResource {
         return Response.status(Status.CREATED).entity(hero).build();
     }
 
+    @Consumes("application/json")
+    @Produces("application/json")
     @DELETE
     @Path("/{id}")
     @Transactional
@@ -66,6 +75,8 @@ public class HeroResource {
         return Response.status(Status.NOT_FOUND).build();
     }
 
+    @Consumes("application/json")
+    @Produces("application/json")
     @PUT
     @Path("/{id}")
     @Transactional
@@ -81,6 +92,8 @@ public class HeroResource {
         return Response.status(Status.OK).entity(exist).build();
     }
 
+    @Consumes("application/json")
+    @Produces("application/json")
     @PATCH
     @Path("/{id}")
     @Transactional
