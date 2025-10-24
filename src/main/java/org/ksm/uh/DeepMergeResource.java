@@ -1,4 +1,8 @@
-package org.ksm;
+package org.ksm.uh;
+
+import org.ksm.entity.HeroResponse;
+import org.ksm.model.HeroRequest;
+import org.ksm.repository.HeroRepository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -34,20 +38,20 @@ public class DeepMergeResource {
     @Transactional
     @Consumes("application/json")
     @Produces("application/json")
-    public String updatHero(@PathParam("heroId") String heroId, String updatedHero) {
+    public String updatHero(@PathParam("heroId") Long heroId, String updatedHero) {
         //log.infof("Updating hero with heroId = %s", heroId);
-        Hero sourceHero = heroRepository.findExistingById(heroId);
+        HeroResponse sourceHero = heroRepository.findExistingById(heroId);
         
         try {
             JsonNode sourceNode = objectMapper.valueToTree(sourceHero);
             JsonNode updateNode = objectMapper.readTree(updatedHero);
             JsonNode mergedNode = deepMergeJsonNodes(sourceNode, updateNode);
 
-            Hero mergedHero = objectMapper.treeToValue(mergedNode, Hero.class);
+            HeroRequest mergedHero = objectMapper.treeToValue(mergedNode, HeroRequest.class);
 
             sourceHero.setAlias(mergedHero.getAlias());
             sourceHero.setName(mergedHero.getName());
-            sourceHero.setCanFly(mergedHero.getCanFly());
+            sourceHero.setFlyable(mergedHero.isFlyable());
 
             return sourceHero.toString();
         } catch (JsonProcessingException e) {
