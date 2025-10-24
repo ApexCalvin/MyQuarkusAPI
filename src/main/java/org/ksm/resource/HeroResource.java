@@ -7,6 +7,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.ksm.model.HeroRequest;
 import org.ksm.entity.HeroResponse;
 import org.ksm.repository.HeroRepository;
+import org.ksm.service.HeroService;
 
 import io.smallrye.common.annotation.RunOnVirtualThread;
 import jakarta.inject.Inject;
@@ -33,28 +34,28 @@ import jakarta.validation.Valid;
 @JBossLog
 public class HeroResource {
     
-    // @Inject
-    // HeroRepository heroRepository;
+    @Inject
+    HeroService heroService;
 
-    // @GET
-    // @Path("/load")
-    // @Transactional
-    // public void load(){
-    //     new HeroResponse("Batman", "Bruce Wayne", false).persist()
-    //     new HeroResponse("Ironman", "Tony Stark", true).persist();
-    // }
-     
-    // @GET
-    // @Operation(summary = "test summary for getAll", description = "test description for getAll")
-    // public List<Hero> getAll() {
-    //      return heroRepository.listAll();
-    // }
+    @GET
+    @Path("/load")
+    public Response loadDummyData(){
+        heroService.loadDummyData();
+        return Response.ok("Dummy heroes loaded").build();
+    }
 
-    // @GET
-    // @Path("/{id}")
-    // public Hero getById(@PathParam("id") Long heroId) {
-    //     return heroRepository.findById(heroId);
-    // }
+    @GET
+    @Path("/{id}")
+    public Response getHero(@PathParam("id") Long id) {
+        HeroRequest model = heroService.getHero(id);
+        return Response.ok(model).build();
+    }
+
+    @GET
+    @Operation(summary = "test summary for getAll", description = "test description for getAll")
+    public Response getHeroes() {
+         return heroRepository.listAll();
+    }
 
 
     // @POST

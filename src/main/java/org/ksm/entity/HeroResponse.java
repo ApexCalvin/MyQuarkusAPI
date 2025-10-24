@@ -6,7 +6,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,21 +18,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class HeroResponse implements IdentifiableEntity<String> {
+public class HeroResponse implements IdentifiableEntity<Long> {
 
     public static final String TABLE_NAME = "HERO";
 
     @Id
-    @Size(max = 50) 
+    @Size(max = 19) 
     @Column(name = "ID")
-    private String id;
+    private Long id;
 
-    @NotEmpty(message = "Alias is required") 
+    @NotBlank(message = "Alias is required") 
     @Size(max = 50, message = "Alias must be less than 50 characters") 
     @Column(name = "ALIAS")
     private String alias;
 
-    @NotEmpty(message = "Name is required") 
+    @NotBlank(message = "Name is required") 
     @Size(max = 50, message = "Name must be less than 50 characters") 
     @Column(name = "NAME")
     private String name;
@@ -41,7 +41,7 @@ public class HeroResponse implements IdentifiableEntity<String> {
     private boolean flyable;
 
     @Override
-    public String getId() {
+    public Long getId() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getId'");
     }
