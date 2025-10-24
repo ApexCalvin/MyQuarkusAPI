@@ -3,6 +3,11 @@ package org.ksm.resource;
 import java.util.List;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.ksm.model.HeroRequest;
 import org.ksm.entity.HeroResponse;
@@ -26,6 +31,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import lombok.extern.jbosslog.JBossLog;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 
 @Path("/v1/hero")
 @Tag(name = "Hero", description = "Operations for managing Hero")
@@ -46,15 +52,37 @@ public class HeroResource {
 
     @GET
     @Path("/{id}")
-    public Response getHero(@PathParam("id") Long id) {
+    @Operation(summary = "Get hero by Id", description = "Retrieves hero with the specified identifier")
+    //@CacheResult(cacheName = CacheService.CACHE_HEROES)
+    @APIResponse(
+        responseCode = "200",
+        description = "Hero retrieved successfully",
+        content = @Content(
+            mediaType = MediaType.APPLICATION_JSON, 
+            schema = @Schema(implementation = HeroRequest.class)))
+    @APIResponse(responseCode = "404", description = "Hero not found")
+    public Response getHero(
+            //@CacheKey
+            @PathParam("id") 
+            @Parameter(description = "Hero Identifier", example = "1234")
+            @NotEmpty Long id) {
         HeroRequest model = heroService.getHero(id);
         return Response.ok(model).build();
     }
 
     @GET
-    @Operation(summary = "test summary for getAll", description = "test description for getAll")
+    @Operation(summary = "Get all heroes", description = "Retrieves all heroes")
+    @APIResponse(
+        responseCode = "200",
+        description = "Heroes retrieved successfully",
+        content = @Content(
+            mediaType = MediaType.APPLICATION_JSON,
+            schema = @Schema(implementation = HeroRequest.class, 
+            type = SchemaType.ARRAY)))
+    //@CacheResult(cacheName = CacheService.CACHE_HEROES)
     public Response getHeroes() {
-         return heroRepository.listAll();
+        List<HeroRequest> models = heroService.getHeroes();
+        return Response.ok(models).build();
     }
 
 

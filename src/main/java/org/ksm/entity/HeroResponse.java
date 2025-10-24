@@ -1,7 +1,5 @@
 package org.ksm.entity;
 
-import org.ksm.entity.base.IdentifiableEntity;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -18,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class HeroResponse implements IdentifiableEntity<Long> {
+public class HeroResponse {
 
     public static final String TABLE_NAME = "HERO";
 
@@ -39,10 +37,4 @@ public class HeroResponse implements IdentifiableEntity<Long> {
 
     @Column(name = "CAN_FLY")
     private boolean flyable;
-
-    @Override
-    public Long getId() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getId'");
-    }
 }

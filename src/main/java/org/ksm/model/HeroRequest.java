@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 @Schema(description = "Request object for Hero")
 public class HeroRequest {
     
-    @Schema(description = "Unique identifier", examples = "abcd-1234-edfg-5678")
-    String id;
+    @Schema(description = "Unique identifier", examples = "1234")
+    Long id;
 
     @NotBlank(message = "Alias is required") 
     @Size(max = 50, message = "Alias must be less than 50 characters")
