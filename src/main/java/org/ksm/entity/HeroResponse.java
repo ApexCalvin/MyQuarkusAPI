@@ -1,29 +1,33 @@
 package org.ksm.entity;
 
+import java.util.UUID;
+
+import org.ksm.entity.base.ModifiableEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /** Entity class for Hero */
 @Entity
 @Table(name = HeroResponse.TABLE_NAME)
-@AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class HeroResponse {
+@EqualsAndHashCode(callSuper=false)
+public class HeroResponse extends ModifiableEntity {
 
     public static final String TABLE_NAME = "HERO";
 
     @Id
     @Size(max = 19) 
     @Column(name = "ID")
-    private Long id;
+    private String id;
 
     @NotBlank(message = "Alias is required") 
     @Size(max = 50, message = "Alias must be less than 50 characters") 
@@ -37,4 +41,11 @@ public class HeroResponse {
 
     @Column(name = "CAN_FLY")
     private boolean flyable;
+
+    @Override
+    protected void onInsert() {
+        super.onInsert();
+
+        if (id == null) id = UUID.randomUUID().toString();
+    }
 }

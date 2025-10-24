@@ -38,7 +38,7 @@ public class DeepMergeResource {
     @Transactional
     @Consumes("application/json")
     @Produces("application/json")
-    public String updatHero(@PathParam("heroId") Long heroId, String updatedHero) {
+    public String updatHero(@PathParam("heroId") String heroId, String updatedHero) {
         //log.infof("Updating hero with heroId = %s", heroId);
         HeroResponse sourceHero = heroRepository.findExistingById(heroId);
         

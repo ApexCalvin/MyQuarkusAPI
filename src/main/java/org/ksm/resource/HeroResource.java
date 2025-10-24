@@ -1,5 +1,6 @@
 package org.ksm.resource;
 
+import java.net.URI;
 import java.util.List;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
@@ -7,14 +8,17 @@ import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.ksm.model.HeroRequest;
 import org.ksm.entity.HeroResponse;
+import org.ksm.exception.UnprocessableEntityException;
 import org.ksm.repository.HeroRepository;
 import org.ksm.service.HeroService;
 
 import io.smallrye.common.annotation.RunOnVirtualThread;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -37,7 +41,6 @@ import jakarta.validation.constraints.NotEmpty;
 @Tag(name = "Hero", description = "Operations for managing Hero")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-@JBossLog
 public class HeroResource {
     
     @Inject
@@ -45,6 +48,7 @@ public class HeroResource {
 
     @GET
     @Path("/load")
+    @Produces(MediaType.TEXT_PLAIN)
     public Response loadDummyData(){
         heroService.loadDummyData();
         return Response.ok("Dummy heroes loaded").build();
@@ -65,7 +69,7 @@ public class HeroResource {
             //@CacheKey
             @PathParam("id") 
             @Parameter(description = "Hero Identifier", example = "1234")
-            @NotEmpty Long id) {
+            @NotEmpty String id) {
         HeroRequest model = heroService.getHero(id);
         return Response.ok(model).build();
     }
@@ -85,14 +89,26 @@ public class HeroResource {
         return Response.ok(models).build();
     }
 
-
-    // @POST
-    // @Transactional
-    // public Response create(@Valid Hero hero) {
-    //     hero.id = null;
-    //     hero.persist();
-    //     return Response.status(Status.CREATED).entity(hero).build();
-    // }
+    @POST
+    @Operation(summary = "Create new hero", description = "Creates a new hero")
+    @APIResponse(
+            responseCode = "201",
+            description = "Hero created successfully",
+            content = @Content(
+                mediaType = MediaType.APPLICATION_JSON,
+                schema = @Schema(implementation = HeroRequest.class)))
+    @APIResponse(responseCode = "422", description = "Invalid payload data")
+    //@CacheInvalidate(cacheName = CacheService.CACHE_HERO)
+    public Response createHero(
+            @Valid 
+            @RequestBody(description = "Hero to create") HeroRequest hero) {
+        if (hero.getId() != null) throw new UnprocessableEntityException("Id should not be provided when creating a new hero.");
+        
+        HeroRequest created = heroService.createHero(hero);
+        return Response.created(URI.create("/v1/hero/%s".formatted(created.getId())))
+                .entity(created)
+                .build();
+    }
 
 
     // @DELETE

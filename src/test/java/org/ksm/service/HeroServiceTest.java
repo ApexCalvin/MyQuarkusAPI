@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class HeroServiceTest {
     @DisplayName("Get hero by Id - success")
     void getHero_success() {
         // Arrange
-        Long id = 123L;
+        String id = "1234-abcd";
 
         HeroResponse entity = new HeroResponse();
         entity.setId(id);
@@ -52,13 +53,14 @@ public class HeroServiceTest {
         assertEquals(entity.getName(), actual.getName());
         assertFalse(actual.isFlyable());
         verify(heroRepository).findExistingById(id);
+        verifyNoMoreInteractions(heroRepository);
     }
 
     @Test
     @DisplayName("Get hero by Id - hero not found")
     void getHero_notFound() {
         // Arrange
-        Long id = 123L;
+        String id = "1234-abcd";
         String message = "Hero Not Found";
 
         when(heroRepository.findExistingById(id)).thenThrow(new NotFoundException(message));
@@ -68,13 +70,17 @@ public class HeroServiceTest {
             assertThrows(NotFoundException.class, () -> service.getHero(id));
         assertEquals(message, exception.getMessage());
         verify(heroRepository).findExistingById(id);
+        verifyNoMoreInteractions(heroRepository);
     }
 
     @Test
     @DisplayName("Get all heroes - success")
     void getHeroes_success() {
         // Arrange
-        HeroResponse entity = new HeroResponse(123L, "Batman", "Bruce Wayne", false);
+        HeroResponse entity = new HeroResponse();
+        entity.setAlias("Batman");
+        entity.setName("Bruce Wayne");
+        entity.setFlyable(false);
 
         when(heroRepository.findHeros()).thenReturn(List.of(entity));
 
@@ -92,6 +98,7 @@ public class HeroServiceTest {
         assertFalse(model.isFlyable());
         
         verify(heroRepository).findHeros();
+        verifyNoMoreInteractions(heroRepository);
     }
     
     @Test

@@ -27,10 +27,20 @@ public class HeroService {
     HeroRepository heroRepository;
 
     public void loadDummyData() {
-        HeroResponse h1 = new HeroResponse(123L, "Batman", "Bruce Wayne", false);
-        HeroResponse h2 = new HeroResponse(234L, "Ironman", "Tony Stark", true);
-        HeroResponse h3 = new HeroResponse(345L, "Spider-man", "Peter Parker", false);
+        HeroResponse h1 = new HeroResponse();
+        h1.setAlias("Batman");
+        h1.setName("Bruce Wayne");
+        h1.setFlyable(false);
+        HeroResponse h2 = new HeroResponse();
+        h2.setAlias("Ironman");
+        h2.setName("Tony Stark");
+        h2.setFlyable(true);
+        HeroResponse h3 = new HeroResponse();
+        h3.setAlias("Spider-man");
+        h3.setName("Peter Parker");
+        h3.setFlyable(false);
         heroRepository.persist(List.of(h1, h2, h3));
+        log.info("Dummy data successfully loaded");
     }
 
      /**
@@ -40,7 +50,7 @@ public class HeroService {
      * @return the {@link HeroRequest} model of the matching identified hero
      * @throws NotFoundException if the hero does not exist
      */
-    public HeroRequest getHero(@PathParam("id") Long id) {
+    public HeroRequest getHero(@PathParam("id") String id) {
         log.infof("Retrieving hero with id %d", id);
         HeroResponse entity = heroRepository.findExistingById(id);
         return convertHeroEntityToModel(entity);
@@ -55,6 +65,21 @@ public class HeroService {
         log.infof("Retrieving all heroes");
         List<HeroResponse> entities = heroRepository.findHeros();
         return entities.stream().map(this::convertHeroEntityToModel).collect(Collectors.toList());
+    }
+
+    /**
+     * Saves the hero model after converting to entity
+     *
+     * @param model the hero to be converted and saved
+     * @return a {@link HeroRequest} model of the persisted hero entity
+     */
+    public HeroRequest createHero(HeroRequest model) {
+        HeroResponse entity = new HeroResponse();
+        entity.setAlias(model.getAlias());
+        entity.setName(model.getName());
+        entity.setFlyable(model.isFlyable());
+        heroRepository.persist(entity);
+        return convertHeroEntityToModel(entity);
     }
 
       /**
