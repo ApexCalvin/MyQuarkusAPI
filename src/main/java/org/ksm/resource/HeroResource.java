@@ -110,6 +110,22 @@ public class HeroResource {
                 .build();
     }
 
+    @DELETE
+    @Path("/{id}")
+    @RolesAllowed("thirdparty:delete")
+    @Operation(
+            summary = "Delete a hero",
+            description = "Deletes a specific hero with the specified Id")
+    @APIResponse(responseCode = "204", description = "Hero deleted successfully")
+    @APIResponse(responseCode = "404", description = "Hero not found")
+    public Response deleteHero(
+            @PathParam("id") 
+            @Parameter(description = "Hero Id")
+            @NotEmpty(message = "Id is required") String id) {
+        heroService.deleteHero(id);
+        return Response.noContent().build();
+    }
+
 
     // @DELETE
     // @Path("/{id}")

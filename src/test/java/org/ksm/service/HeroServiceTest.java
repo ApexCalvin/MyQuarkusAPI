@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -20,6 +22,7 @@ import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.core.Response;
 
 @QuarkusTest
 public class HeroServiceTest {
@@ -100,9 +103,43 @@ public class HeroServiceTest {
         verify(heroRepository).findHeros();
         verifyNoMoreInteractions(heroRepository);
     }
-    
+
     @Test
-    @DisplayName("")
+    @DisplayName("Delete hero - success")
+    void deleteHero_success() {
+        // Arrange
+        String id = "abcd-1234-efgh-5678";
+
+        when(heroRepository.findExistingById(id)).thenReturn(new HeroResponse());
+
+        // Act
+        service.deleteHero(id);
+
+        // Assert
+        verify(heroRepository).delete(any(HeroResponse.class));
+        verify(heroRepository).findExistingById(id);
+        verifyNoMoreInteractions(heroRepository);
+    }
+
+    @Test
+    @DisplayName("Delete hero - hero not found")
+    void deleteHero_notFound() {
+        // Arrange
+        String id = "abcd-1234-efgh-5678";
+
+        when(heroRepository.findExistingById(id)).thenThrow(new NotFoundException("Hero not found"));
+
+        // Act & Assert
+        NotFoundException exception = 
+            assertThrows(NotFoundException.class, () -> service.deleteHero(id));
+        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), exception.getResponse().getStatus());
+        assertEquals("Hero not found", exception.getMessage());
+        verify(heroRepository).findExistingById(id);
+        verifyNoMoreInteractions(heroRepository);
+    }
+
+    @Test
+    @DisplayName("template")
     void template() {
         // Arrange
         

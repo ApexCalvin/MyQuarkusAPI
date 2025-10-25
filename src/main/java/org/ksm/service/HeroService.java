@@ -51,7 +51,7 @@ public class HeroService {
      * @throws NotFoundException if the hero does not exist
      */
     public HeroRequest getHero(@PathParam("id") String id) {
-        log.infof("Retrieving hero with id %d", id);
+        log.infof("Retrieving hero with id %s", id);
         HeroResponse entity = heroRepository.findExistingById(id);
         return convertHeroEntityToModel(entity);
     }
@@ -65,6 +65,18 @@ public class HeroService {
         log.infof("Retrieving all heroes");
         List<HeroResponse> entities = heroRepository.findHeros();
         return entities.stream().map(this::convertHeroEntityToModel).collect(Collectors.toList());
+    }
+
+    /**
+     * Delete an existing hero contract with the specified identifier
+     *
+     * @param id The third party contract identifier
+     * @throws NotFoundException if the hero does not exist
+     */
+    public void deleteHero(String id) {
+        log.infof("Deleting third party contract: %s", id);
+        HeroResponse existing = heroRepository.findExistingById(id);
+        heroRepository.delete(existing);
     }
 
     /**

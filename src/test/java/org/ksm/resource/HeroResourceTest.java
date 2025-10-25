@@ -2,6 +2,7 @@ package org.ksm.resource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -17,7 +18,6 @@ import io.quarkus.test.junit.QuarkusTest;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
-import org.ksm.entity.HeroResponse;
 import org.ksm.model.HeroRequest;
 import org.ksm.service.HeroService;
 
@@ -66,6 +66,7 @@ class HeroResourceTest {
         // Act & Assert
         NotFoundException exception = 
             assertThrows(NotFoundException.class, () -> resource.getHero(id));
+        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), exception.getResponse().getStatus());
         assertEquals(message, exception.getMessage());
         verify(heroService).getHero(id);
         verifyNoMoreInteractions(heroService);
@@ -89,6 +90,40 @@ class HeroResourceTest {
         verifyNoMoreInteractions(heroService);
     }
 
+    @Test
+    @DisplayName("Delete hero - success")
+    void deleteHero_success() {
+        // Arrange
+        String id = "abcd-1234-efgh-5678";
+
+        // Act
+        Response response = resource.deleteHero(id);
+
+        // Assert
+        assertEquals(Response.Status.NO_CONTENT.getStatusCode(), response.getStatus());
+        verify(heroService).deleteHero(id);
+        verifyNoMoreInteractions(heroService);
+    }
+
+    @Test
+    @DisplayName("Delete hero - hero not found")
+    void deleteHero_notFound() {
+        // Arrange
+        String id = "abcd-1234-efgh-5678";
+
+        doThrow(new NotFoundException("Hero not found"))
+            .when(heroService)
+            .deleteHero(id);
+        
+        // Act & Assert
+        NotFoundException exception = 
+            assertThrows(NotFoundException.class, () -> resource.deleteHero(id));
+        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), exception.getResponse().getStatus());
+        assertEquals("Hero not found", exception.getMessage());
+        verify(heroService).deleteHero(id);
+        verifyNoMoreInteractions(heroService);
+    }
+
     private List<HeroRequest> createTestHeroes() {
         HeroRequest h1 = new HeroRequest();
         h1.setAlias("Batman");
@@ -106,7 +141,7 @@ class HeroResourceTest {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("template")
     void template() {
         // Arrange
         

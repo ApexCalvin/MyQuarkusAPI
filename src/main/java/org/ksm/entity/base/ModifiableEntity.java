@@ -4,7 +4,7 @@ import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
 
 @MappedSuperclass
-public class ModifiableEntity {
+public abstract class ModifiableEntity {
     
     /** Populate the ID field before insertion. */
     @PrePersist
