@@ -40,12 +40,12 @@ public class HeroResponse extends ModifiableEntity {
     private String name;
 
     @Column(name = "CAN_FLY")
-    private boolean flyable;
+    private Boolean flyable;
 
     @Override
     protected void onInsert() {
         super.onInsert();
 
-        if (id == null) id = UUID.randomUUID().toString();
+        if (id == null) id = UUID.randomUUID().toString(); 
     }
 }

@@ -51,7 +51,7 @@ public class DeepMergeResource {
 
             sourceHero.setAlias(mergedHero.getAlias());
             sourceHero.setName(mergedHero.getName());
-            sourceHero.setFlyable(mergedHero.isFlyable());
+            sourceHero.setFlyable(mergedHero.getFlyable());
 
             return sourceHero.toString();
         } catch (JsonProcessingException e) {

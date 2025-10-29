@@ -6,6 +6,7 @@ import java.util.List;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.ExampleObject;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
@@ -16,6 +17,8 @@ import org.ksm.entity.HeroResponse;
 import org.ksm.exception.UnprocessableEntityException;
 import org.ksm.repository.HeroRepository;
 import org.ksm.service.HeroService;
+
+import com.mysql.cj.util.StringUtils;
 
 import io.smallrye.common.annotation.RunOnVirtualThread;
 import jakarta.annotation.security.RolesAllowed;
@@ -97,7 +100,7 @@ public class HeroResource {
             content = @Content(
                 mediaType = MediaType.APPLICATION_JSON,
                 schema = @Schema(implementation = HeroRequest.class)))
-    @APIResponse(responseCode = "422", description = "Invalid payload data")
+    @APIResponse(responseCode = "422", description = "Id should be excluded")
     //@CacheInvalidate(cacheName = CacheService.CACHE_HERO)
     public Response createHero(
             @Valid 
@@ -110,9 +113,34 @@ public class HeroResource {
                 .build();
     }
 
+    @PATCH
+    @Path("/{id}")
+    @Operation(
+        summary = "Update the requested values of an existing Hero and save",
+        description = "Updates and saves all of the values from a heros' requested keys such as name, alias, etc.")
+    @APIResponse(
+        responseCode = "200",
+        description = "Hero updated successfully",
+        content = @Content(
+            mediaType = MediaType.APPLICATION_JSON, 
+            schema = @Schema(implementation = HeroRequest.class)))
+    @APIResponse(responseCode = "404", description = "Hero not found")
+    @APIResponse(responseCode = "422", description = "Mixmatched Ids")
+    //@CacheInvalidate(cacheName = CacheService.CACHE_HERO)
+    public Response updateHero(
+            @PathParam("id")
+            @Parameter(description = "Hero identifier to update")
+            @NotEmpty(message = "Id is required") String id,
+            @Valid 
+            @RequestBody(description = "Hero model containing fields to update") HeroRequest hero) {
+        if (id.equalsIgnoreCase(hero.getId())) throw new UnprocessableEntityException("URI Id and model Id do not match");        
+        
+        HeroRequest updated = heroService.partialUpdateHero(id, hero);
+        return Response.ok(updated).build();
+    }
+
     @DELETE
     @Path("/{id}")
-    @RolesAllowed("thirdparty:delete")
     @Operation(
             summary = "Delete a hero",
             description = "Deletes a specific hero with the specified Id")
@@ -125,18 +153,6 @@ public class HeroResource {
         heroService.deleteHero(id);
         return Response.noContent().build();
     }
-
-
-    // @DELETE
-    // @Path("/{id}")
-    // @Transactional
-    // public Response deleteById(@PathParam("id") Long heroId) {
-    //     if (heroRepository.deleteById(heroId)) {
-    //         return Response.status(Status.OK).build();
-    //     }
-    //     return Response.status(Status.NOT_FOUND).build();
-    // }
-
 
     // @PUT
     // @Path("/{id}")
@@ -152,21 +168,4 @@ public class HeroResource {
         
     //     return Response.status(Status.OK).entity(exist).build();
     // }
-
-
-    // @PATCH
-    // @Path("/{id}")
-    // @Transactional
-    // public Response updateById(@PathParam("id") Long heroId, @Valid HeroRequest HeroRequest) {
-    //     Hero exist = heroRepository.findById(heroId);
-
-    //     if (exist == null) return Response.status(Status.NOT_FOUND).build();
-
-    //     if (HeroRequest.getAlias() != null) exist.setAlias(HeroRequest.getAlias());
-    //     if (HeroRequest.getName() != null) exist.setName(HeroRequest.getName());
-    //     if (HeroRequest.getCanFly() != null) exist.setCanFly(HeroRequest.getCanFly());
-
-    //     return Response.status(Status.OK).entity(exist).build();
-    // }
-
 }

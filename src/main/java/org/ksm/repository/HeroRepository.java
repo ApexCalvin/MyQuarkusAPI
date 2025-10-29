@@ -8,10 +8,12 @@ import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
+import lombok.extern.jbosslog.JBossLog;
 
 /** Repository class for managing {@link HeroResponse} entities. */
 @ApplicationScoped
 @Transactional
+@JBossLog
 public class HeroRepository implements PanacheRepositoryBase<HeroResponse, String> {
 
     /**
@@ -32,6 +34,7 @@ public class HeroRepository implements PanacheRepositoryBase<HeroResponse, Strin
      * @return the list of heroes
      */
     public List<HeroResponse> findHeros() {
+        log.debug("Loading all heroes");
         return findAll().list();
     }
 }

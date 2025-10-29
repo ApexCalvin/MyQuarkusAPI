@@ -29,5 +29,5 @@ public class HeroRequest {
     String name;
 
     @Schema(description = "If the hero is capable of flying")
-    boolean flyable;
+    Boolean flyable;
 }

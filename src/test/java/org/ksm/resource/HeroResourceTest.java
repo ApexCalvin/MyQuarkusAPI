@@ -3,6 +3,7 @@ package org.ksm.resource;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -18,6 +19,7 @@ import io.quarkus.test.junit.QuarkusTest;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
+import org.ksm.exception.UnprocessableEntityException;
 import org.ksm.model.HeroRequest;
 import org.ksm.service.HeroService;
 
@@ -87,6 +89,51 @@ class HeroResourceTest {
         assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         assertEquals(models, response.getEntity());
         verify(heroService).getHeroes();
+        verifyNoMoreInteractions(heroService);
+    }
+    
+    @Test
+    @DisplayName("Create hero - success")
+    void createHero_success() {
+        HeroRequest request = new HeroRequest();
+        request.setAlias("Spider-Man");
+        request.setName("Peter Parker");
+        request.setFlyable(Boolean.TRUE);
+
+        HeroRequest response = new HeroRequest();
+        response.setId("abcd-1234-efgh-5678");
+        response.setAlias("Spider-Man");
+        response.setName("Peter Parker");
+        response.setFlyable(Boolean.TRUE);
+
+        when(heroService.createHero(request)).thenReturn(response);
+
+        // Act
+        Response actual = resource.createHero(request);
+
+        // Assert
+        assertEquals(Response.Status.CREATED.getStatusCode(), actual.getStatus());
+        assertEquals(response, actual.getEntity());
+        assertEquals("/v1/hero/abcd-1234-efgh-5678", actual.getLocation().toString());
+        verify(heroService).createHero(request);
+        verifyNoMoreInteractions(heroService);
+    }
+
+    @Test
+    @DisplayName("Create hero - Id should be excluded")
+    void createHero_IdProvided() {
+        // Arrange
+        HeroRequest hero = new HeroRequest();
+        hero.setId("abcd-1234-efgh-5678");
+        hero.setAlias("Spider-Man");
+        hero.setName("Peter Parker");
+        hero.setFlyable(Boolean.TRUE);
+
+        // Act & Assert
+        UnprocessableEntityException exception =
+            assertThrows(UnprocessableEntityException.class, () -> resource.createHero(hero));
+        assertEquals("Id should not be provided when creating a new hero.", exception.getMessage());
+        verify(heroService, never()).createHero(hero);
         verifyNoMoreInteractions(heroService);
     }
 

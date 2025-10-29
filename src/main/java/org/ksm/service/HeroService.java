@@ -68,18 +68,6 @@ public class HeroService {
     }
 
     /**
-     * Delete an existing hero contract with the specified identifier
-     *
-     * @param id The third party contract identifier
-     * @throws NotFoundException if the hero does not exist
-     */
-    public void deleteHero(String id) {
-        log.infof("Deleting third party contract: %s", id);
-        HeroResponse existing = heroRepository.findExistingById(id);
-        heroRepository.delete(existing);
-    }
-
-    /**
      * Saves the hero model after converting to entity
      *
      * @param model the hero to be converted and saved
@@ -89,9 +77,50 @@ public class HeroService {
         HeroResponse entity = new HeroResponse();
         entity.setAlias(model.getAlias());
         entity.setName(model.getName());
-        entity.setFlyable(model.isFlyable());
+        entity.setFlyable(model.getFlyable() != null ? model.getFlyable() : Boolean.FALSE);
         heroRepository.persist(entity);
         return convertHeroEntityToModel(entity);
+    }
+
+    /**
+     * Updates all assignments (crew and/or members) assigned for the specified aircraft
+     *
+     * @param id The hero identifier
+     * @param model The model containing fields to update the hero with
+     * @return a {@link HeroRequest} model that contains updated hero information
+     * @throws NotFoundException if the hero does not exist
+     */
+    public HeroRequest partialUpdateHero(String id, HeroRequest model) {
+        log.infof("Retrieving hero: %s", id);
+        HeroResponse entity = heroRepository.findExistingById(id);
+
+        log.infof("Updating hero: %s", id);
+        if (model.getAlias() != null) entity.setAlias(model.getAlias());
+        if (model.getName() != null) entity.setName(model.getName());
+        if (model.getFlyable() != null) entity.setFlyable(model.getFlyable());
+        
+        // merge
+        heroRepository.getEntityManager().merge(entity);
+        
+        // flush and refresh
+        heroRepository.flush();
+        heroRepository.getEntityManager().refresh(entity);
+
+        return convertHeroEntityToModel(entity);
+    }
+
+    //   * @param model The updated model for the database table to reflect
+
+    /**
+     * Delete an existing hero contract with the specified identifier
+     *
+     * @param id The hero identifier
+     * @throws NotFoundException if the hero does not exist
+     */
+    public void deleteHero(String id) {
+        log.infof("Deleting hero: %s", id);
+        HeroResponse existing = heroRepository.findExistingById(id);
+        heroRepository.delete(existing);
     }
 
       /**
@@ -105,7 +134,7 @@ public class HeroService {
         model.setId(entity.getId());
         model.setAlias(entity.getAlias());
         model.setName(entity.getName());
-        model.setFlyable(entity.isFlyable());
+        model.setFlyable(entity.getFlyable());
         return model;
     }        
 }

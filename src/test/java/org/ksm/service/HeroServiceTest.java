@@ -1,11 +1,10 @@
 package org.ksm.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -43,7 +42,7 @@ public class HeroServiceTest {
         entity.setId(id);
         entity.setAlias("Spider-Man");
         entity.setName("Peter Parker");
-        entity.setFlyable(false);
+        entity.setFlyable(true);
 
         when(heroRepository.findExistingById(id)).thenReturn(entity);
 
@@ -54,7 +53,7 @@ public class HeroServiceTest {
         assertEquals(entity.getId(), actual.getId());
         assertEquals(entity.getAlias(), actual.getAlias());
         assertEquals(entity.getName(), actual.getName());
-        assertFalse(actual.isFlyable());
+        assertTrue(actual.getFlyable());
         verify(heroRepository).findExistingById(id);
         verifyNoMoreInteractions(heroRepository);
     }
@@ -83,7 +82,7 @@ public class HeroServiceTest {
         HeroResponse entity = new HeroResponse();
         entity.setAlias("Batman");
         entity.setName("Bruce Wayne");
-        entity.setFlyable(false);
+        entity.setFlyable(true);
 
         when(heroRepository.findHeros()).thenReturn(List.of(entity));
 
@@ -98,9 +97,30 @@ public class HeroServiceTest {
         assertEquals(entity.getId(), model.getId());
         assertEquals(entity.getAlias(), model.getAlias());
         assertEquals(entity.getName(), model.getName());
-        assertFalse(model.isFlyable());
+        assertTrue(model.getFlyable());
         
         verify(heroRepository).findHeros();
+        verifyNoMoreInteractions(heroRepository);
+    }
+
+    @Test
+    @DisplayName("Create hero - success")
+    void createHero_success() {
+        // Arrange
+        HeroRequest hero = new HeroRequest();
+        hero.setId("abcd-1234-egfh-5678");
+        hero.setAlias("Spider-Man");
+        hero.setName("Peter Parker");
+        hero.setFlyable(Boolean.TRUE);
+        
+        // Act
+        HeroRequest actual = service.createHero(hero);
+
+        // Assert
+        assertEquals(hero.getAlias(), actual.getAlias());
+        assertEquals(hero.getName(), actual.getName());
+        assertEquals(hero.getFlyable(), actual.getFlyable());
+        verify(heroRepository).persist(any(HeroResponse.class));
         verifyNoMoreInteractions(heroRepository);
     }
 
