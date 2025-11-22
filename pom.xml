@@ -35,10 +35,6 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-rest</artifactId>
         </dependency>
-        <!--<dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-jdbc-h2</artifactId>
-        </dependency>-->
         <!-- JSON serialization/deserialization via Jackson -->
         <dependency>
             <groupId>io.quarkus</groupId>
@@ -58,6 +54,11 @@
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-hibernate-orm-panache</artifactId>
+        </dependency>
+        <!-- Liquibase for database migrations -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-liquibase</artifactId>
         </dependency>
         <!-- MySQL JDBC driver -->
         <dependency>
