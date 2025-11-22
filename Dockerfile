@@ -1,47 +1,35 @@
-#Stage 1, (Maven) Build stage in Container 1: Update files/code if needed and build the .jar file
+# Build Stage: Use Maven as the base image for building in container 1
 FROM maven:3.9.6-eclipse-temurin-21 AS build
-RUN echo "Build base image for container 1"
 
-# Set the working directory inside the container
+# Create and cd into /app
 WORKDIR /app
-RUN echo "Create and move into app dir for container 1"
 
-# Copy only the pom.xml to leverage Docker cache for dependency resolution
+# Copy only the pom
 COPY pom.xml .
-RUN echo "Copied pom to container 1"
 
-# Download project dependencies (without compiling the full source yet)
+# Download proj dependencies from pom without actually compiling the code
 RUN mvn dependency:go-offline
-RUN echo "Downloaded dependencies only and cached"
 
-# Copy the source code after dependencies are cached
+# Copy over src code
 COPY src ./src
-RUN echo "Copied src code to container 1"
 
-# Compile and package the application into a .jar file (skipping tests to speed up build)
+# Compile and package the app into a .jar file. Skip tests to save time. 
 RUN mvn clean package -DskipTests
-RUN echo "Compiled source code and packaged application into a .jar file an existing or generated target dir"
-RUN echo "Build stage completed."
 
-#RUN ls -lh target
-RUN echo "List all files in folder to validate .jar file in container 1"
-RUN echo "Files in /app/target:" && ls -lh target
-#[build 15/15]
 
-#Stage 2, Run stage in Container 2: Run the .jar file from Container 1 into this container
+# Run Stage: Use Temurin JDK as the base image for running in container 2
 FROM eclipse-temurin:21-jdk
-RUN echo "Build base image for container 2"
 
 # Set working directory
 WORKDIR /app
-RUN echo "Create and move into app dir for container 2"
 
-# Copy your application JAR to this container
-COPY --from=build /app/target/quarkus-demo-1.0.0-SNAPSHOT.jar app.jar
-#COPY ./target/quarkus-app/quarkus-run.jar app.jar
-RUN echo "Copied .jar file from container 1 to container 2"
+# Copy the entire quarkus-app directory (FAST-JAR output)
+COPY --from=build /app/target/quarkus-app/ /app/
 
-# Run the application
-RUN echo "Building docker image from .jar file"
-#[stage-1 7/7]
-CMD ["java", "-jar", "app.jar"]
+# Install netcat in the runtime image so the included wait script can use `nc` to probe MySQL
+RUN apt-get update && apt-get install -y netcat-openbsd && rm -rf /var/lib/apt/lists/*
+
+# Start the Quarkus application. Although Docker Compose starts MySQL first, we need to wait until it's fully ready.
+COPY wait-for-mysql.sh /app/wait-for-mysql.sh
+RUN chmod +x /app/wait-for-mysql.sh
+CMD ["/app/wait-for-mysql.sh"]

@@ -84,7 +84,7 @@
             <version>1.18.30</version>
             <scope>provided</scope>
         </dependency>
-        <!-- JSON utility library (org.json) -->
+        <!-- JSON utility library -->
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
@@ -94,6 +94,10 @@
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-smallrye-openapi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-swagger-ui</artifactId>
         </dependency>
         <!-- JUnit 5 integration for Quarkus testing -->
         <dependency>
