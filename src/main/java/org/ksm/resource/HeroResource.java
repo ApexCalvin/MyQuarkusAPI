@@ -3,6 +3,7 @@ package org.ksm.resource;
 import java.net.URI;
 import java.util.List;
 
+import org.apache.commons.lang3.Strings;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
@@ -116,8 +117,8 @@ public class HeroResource {
     @PATCH
     @Path("/{id}")
     @Operation(
-        summary = "Update the requested values of an existing Hero and save",
-        description = "Updates and saves all of the values from a heros' requested keys such as name, alias, etc.")
+        summary = "Update existing hero",
+        description = "Update the requested values of an existing Hero and save")
     @APIResponse(
         responseCode = "200",
         description = "Hero updated successfully",
@@ -125,15 +126,17 @@ public class HeroResource {
             mediaType = MediaType.APPLICATION_JSON, 
             schema = @Schema(implementation = HeroRequest.class)))
     @APIResponse(responseCode = "404", description = "Hero not found")
-    @APIResponse(responseCode = "422", description = "Mixmatched Ids")
+    @APIResponse(responseCode = "422", description = "URI Id and model Id do not match")
     //@CacheInvalidate(cacheName = CacheService.CACHE_HERO)
     public Response updateHero(
             @PathParam("id")
-            @Parameter(description = "Hero identifier to update")
-            @NotEmpty(message = "Id is required") String id,
+            @Parameter(description = "Unique Hero Id", example = "1234-abcd-5678-efgh")
+            @NotEmpty(message = "Id is required") 
+            String id,
             @Valid 
-            @RequestBody(description = "Hero model containing fields to update") HeroRequest hero) {
-        if (id.equalsIgnoreCase(hero.getId())) throw new UnprocessableEntityException("URI Id and model Id do not match");        
+            @RequestBody(description = "Hero model containing fields to update") 
+            HeroRequest hero) {
+        if (!Strings.CI.equals(id, hero.getId())) throw new UnprocessableEntityException("URI Id and model Id do not match");        
         
         HeroRequest updated = heroService.partialUpdateHero(id, hero);
         return Response.ok(updated).build();

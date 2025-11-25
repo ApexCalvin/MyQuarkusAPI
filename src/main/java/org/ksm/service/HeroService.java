@@ -43,7 +43,18 @@ public class HeroService {
         log.info("Dummy data successfully loaded");
     }
 
-     /**
+    /**
+     * Retrieves all heroes
+     *
+     * @return A list of {@link HeroRequest} models of heroes
+     */
+    public List<HeroRequest> getHeroes() {
+        log.infof("Retrieving all heroes");
+        List<HeroResponse> entities = heroRepository.findHeros();
+        return entities.stream().map(this::convertHeroEntityToModel).collect(Collectors.toList());
+    }
+    
+    /**
      * Retrieves hero with specified identifier
      *
      * @param id the hero identifier
@@ -57,33 +68,32 @@ public class HeroService {
     }
 
     /**
-     * Retrieves all heroes
-     *
-     * @return A list of {@link HeroRequest} models of heroes
-     */
-    public List<HeroRequest> getHeroes() {
-        log.infof("Retrieving all heroes");
-        List<HeroResponse> entities = heroRepository.findHeros();
-        return entities.stream().map(this::convertHeroEntityToModel).collect(Collectors.toList());
-    }
-
-    /**
      * Saves the hero model after converting to entity
      *
      * @param model the hero to be converted and saved
      * @return a {@link HeroRequest} model of the persisted hero entity
      */
     public HeroRequest createHero(HeroRequest model) {
-        HeroResponse entity = new HeroResponse();
-        entity.setAlias(model.getAlias());
-        entity.setName(model.getName());
-        entity.setFlyable(model.getFlyable() != null ? model.getFlyable() : Boolean.FALSE);
+        log.infof("Creating new hero: %s", model);
+        HeroResponse entity = convertHeroModelToEntity(model);
         heroRepository.persist(entity);
         return convertHeroEntityToModel(entity);
     }
 
     /**
-     * Updates all assignments (crew and/or members) assigned for the specified aircraft
+     * Delete an existing hero contract with the specified identifier
+     *
+     * @param id The hero identifier
+     * @throws NotFoundException if the hero does not exist
+     */
+    public void deleteHero(String id) {
+        log.infof("Deleting hero: %s", id);
+        HeroResponse existing = heroRepository.findExistingById(id);
+        heroRepository.delete(existing);
+    }
+
+    /**
+     * Updates requested values for the specified hero
      *
      * @param id The hero identifier
      * @param model The model containing fields to update the hero with
@@ -106,28 +116,19 @@ public class HeroService {
         heroRepository.flush();
         heroRepository.getEntityManager().refresh(entity);
 
+        //.mergeAndFlush(entity);
+        // aircraftMasterRepository.flushAndRefresh(aircraft);
+
         return convertHeroEntityToModel(entity);
     }
 
     //   * @param model The updated model for the database table to reflect
 
     /**
-     * Delete an existing hero contract with the specified identifier
-     *
-     * @param id The hero identifier
-     * @throws NotFoundException if the hero does not exist
-     */
-    public void deleteHero(String id) {
-        log.infof("Deleting hero: %s", id);
-        HeroResponse existing = heroRepository.findExistingById(id);
-        heroRepository.delete(existing);
-    }
-
-      /**
      * Converts a {@link HeroResponse} entity to a {@link HeroRequest} model.
      *
      * @param entity The hero entity to convert
-     * @return the hero model containing the data from the entity
+     * @return the hero model containing data from the entity
      */
     private HeroRequest convertHeroEntityToModel(HeroResponse entity) {
         final HeroRequest model = new HeroRequest();
@@ -136,5 +137,20 @@ public class HeroService {
         model.setName(entity.getName());
         model.setFlyable(entity.getFlyable());
         return model;
-    }        
+    }
+    
+    /**
+     * Converts a {@link HeroRequest} model to a {@link HeroResponse} entity.
+     *
+     * @param model The hero model to convert
+     * @return the hero entity containing data from the model
+     */
+    private HeroResponse convertHeroModelToEntity(HeroRequest model) {
+        final HeroResponse entity = new HeroResponse();
+        entity.setId(model.getId());
+        entity.setAlias(model.getAlias());
+        entity.setName(model.getName());
+        entity.setFlyable(model.getFlyable() != null ? model.getFlyable() : Boolean.FALSE);
+        return entity;
+    } 
 }
