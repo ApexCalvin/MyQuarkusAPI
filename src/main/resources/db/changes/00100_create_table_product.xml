@@ -1,0 +1,42 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="
+    http://www.liquibase.org/xml/ns/dbchangelog 
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    
+    <changeSet author="MYQUARKUSAPI" id="PRODUCT">
+        <createTable tableName="PRODUCT">
+            <column name="ID" type="VARCHAR(20)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="SET_NAME" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PRODUCT_TYPE" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="RELEASE_DATE" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PURCHASE_DATE" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="RELEASE_PRICE" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PURCHASE_PRICE" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SPECIAL_EDITION" type="VARCHAR(10)" defaultValue="NO">
+                <constraints nullable="false"/>
+            </column>
+            <!-- ModifiableEntity fields -->
+            <column name="CREATED_BY" type="VARCHAR(10)" defaultValue="SYSTEM"/>
+            <column name="CREATED_DATE" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="MODIFIED_BY" type="VARCHAR(10)"/>
+            <column name="MODIFIED_DATE" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

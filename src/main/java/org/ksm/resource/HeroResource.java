@@ -3,7 +3,7 @@ package org.ksm.resource;
 import java.net.URI;
 import java.util.List;
 
-import org.apache.commons.lang3.Strings;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
@@ -19,7 +19,6 @@ import org.ksm.exception.UnprocessableEntityException;
 import org.ksm.repository.HeroRepository;
 import org.ksm.service.HeroService;
 
-import com.mysql.cj.util.StringUtils;
 
 import io.smallrye.common.annotation.RunOnVirtualThread;
 import jakarta.annotation.security.RolesAllowed;
@@ -136,8 +135,7 @@ public class HeroResource {
             @Valid 
             @RequestBody(description = "Hero model containing fields to update") 
             HeroRequest hero) {
-        if (!Strings.CI.equals(id, hero.getId())) throw new UnprocessableEntityException("URI Id and model Id do not match");        
-        
+        if (!StringUtils.equalsIgnoreCase(id, hero.getId())) throw new UnprocessableEntityException("URI Id and model Id do not match");        
         HeroRequest updated = heroService.partialUpdateHero(id, hero);
         return Response.ok(updated).build();
     }
