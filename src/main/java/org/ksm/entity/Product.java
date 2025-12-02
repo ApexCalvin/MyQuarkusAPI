@@ -2,9 +2,11 @@ package org.ksm.entity;
 
 import java.time.LocalDate;
 
+import org.hibernate.type.YesNoConverter;
 import org.ksm.entity.base.ModifiableEntity;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -56,6 +58,7 @@ public class Product extends ModifiableEntity {
     @Column(name = "PURCHASE_PRICE")
     private double purchasePrice;
 
+    @Convert(converter = YesNoConverter.class)
     @NotEmpty(message = "Special Edition is required") 
     @Column(name = "SPECIAL_EDITION")
     private boolean specialEdition;
