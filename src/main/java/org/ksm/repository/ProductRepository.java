@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.ksm.entity.Product;
 
-import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
@@ -14,7 +13,7 @@ import lombok.extern.jbosslog.JBossLog;
 @ApplicationScoped
 @Transactional
 @JBossLog
-public class ProductRepository implements PanacheRepositoryBase<Product, String> {
+public class ProductRepository extends BaseRepository<Product, String>{
     
     /**
      * Finds an existing product by its Id
@@ -24,8 +23,7 @@ public class ProductRepository implements PanacheRepositoryBase<Product, String>
      * @throws NotFoundException if entity is not found
      */
     public Product findExistingById(String id) {
-        return findByIdOptional(id)
-            .orElseThrow(() -> new NotFoundException("Product not found: " + id));
+        return findByIdOptional(id).orElseThrow(() -> new NotFoundException("Product not found: " + id));
     }
 
     /**

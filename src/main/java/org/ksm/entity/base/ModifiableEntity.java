@@ -1,5 +1,7 @@
 package org.ksm.entity.base;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
 
@@ -14,6 +16,11 @@ public abstract class ModifiableEntity {
 
     protected void onInsert() {
         // override in subclasses if you need @PrePersist
+    }
+
+    public void setModifiedDate(LocalDateTime localDateTime) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setModifiedDate'");
     }
 }
 
