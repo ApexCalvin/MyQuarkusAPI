@@ -2,8 +2,6 @@ package org.ksm.repository;
 
 import java.util.List;
 
-import org.ksm.entity.base.ModifiableEntity;
-
 import jakarta.transaction.Transactional;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
