@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -30,10 +31,18 @@ public class ProductResourceTest {
     @Test
     @DisplayName("Get all products - success")
     void getProducts_success() {
-        // Arrange
-        List<Collectable> models = List.of(
-            new Collectable("abcd-1234-efgh-5678", "Steam Siege", "Booster Box", null, null, 0, 0, false)
-         );
+    // Arrange
+    List<Collectable> models = List.of(
+        new Collectable(
+            "abcd-1234-efgh-5678",
+            "Steam Siege",
+            "Booster Box",
+            null, // releaseDate
+            null, // purchaseDate
+            BigDecimal.valueOf(0), // releasePrice
+            BigDecimal.valueOf(0), // purchasePrice
+            false // specialEdition
+        ));
 
         when(productService.getProducts()).thenReturn(models);
 

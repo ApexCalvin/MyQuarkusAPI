@@ -1,5 +1,6 @@
 package org.ksm.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
@@ -7,6 +8,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -42,15 +44,15 @@ public class Collectable {
     @Schema(description = "Purchase date of collectable")
     private LocalDate purchaseDate;
 
-    @NotEmpty(message = "Release price is required") 
+    @NotNull(message = "Release price is required") 
     @Schema(description = "Release price of collectable")
-    private double releasePrice;
+    private BigDecimal releasePrice;
 
-    @NotEmpty(message = "Purchase price is required") 
+    @NotNull(message = "Purchase price is required") 
     @Schema(description = "Purchase price of collectable")
-    private double purchasePrice;
+    private BigDecimal purchasePrice;
 
-    @NotEmpty(message = "Special Edition is required")
+    @NotNull(message = "Special Edition is required")
     @Schema(description = "If the collectable is a special edition")
     private boolean specialEdition;
 }
