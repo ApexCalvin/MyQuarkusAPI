@@ -30,7 +30,7 @@ public class Product extends ModifiableEntity {
     public static final String TABLE_NAME = "PRODUCT";
 
     @Id
-    @Size(max = 20)
+    @Size(max = 36)
     @Column(name = "ID")
     private String id;
 

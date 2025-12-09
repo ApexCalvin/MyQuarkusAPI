@@ -22,14 +22,14 @@ import lombok.NoArgsConstructor;
 public class Collectable {
     
     @Id
-    @Size(max = 20)
+    @Size(max = 36)
     @Schema(description = "Unique identifier", examples = "abcd-1234-efgh-5678")
     private String id;
 
     @NotBlank(message = "Set is required") 
     @Size(max = 50, message = "Set must be less than 50 characters") 
     @Schema(description = "Set of collectable", examples = {"Steam Siege", "Roaring Skies", "Ancient Origins"})
-    private String set;
+    private String setName;
 
     @NotBlank(message = "Type is required") 
     @Size(max = 50, message = "Type must be less than 50 characters") 
