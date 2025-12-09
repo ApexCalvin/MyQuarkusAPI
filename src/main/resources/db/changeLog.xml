@@ -4,8 +4,10 @@
 	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-	<!-- creates PRODUCT -->
+	<!-- creates PRODUCT table-->
 	<include file="changes/00100_create_table_product.xml" relativeToChangelogFile="true" />
-	<!-- include CSV product data load -->
+	<!-- load CSV data into PRODUCT table -->
 	<include file="changes/00101_load_table_product.xml" relativeToChangelogFile="true"/>
+	<!-- creates HERO table-->
+	<include file="changes/00200_create_table_hero.xml" relativeToChangelogFile="true" />
 </databaseChangeLog>
