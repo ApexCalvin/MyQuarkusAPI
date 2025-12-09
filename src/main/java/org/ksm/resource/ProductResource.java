@@ -72,7 +72,7 @@ public class ProductResource {
             schema = @Schema(implementation = Collectable.class)))
     @APIResponse(responseCode = "422", description = "Product ID should be empty for new products")
     public Response createProduct(@Valid @RequestBody(description = "Product to create") Collectable request) {
-        if (request.getId() != null) throw new UnprocessableEntityException("ID should not be provided when creating a new hero.");
+        if (request.getId() != null) throw new UnprocessableEntityException("ID should not be provided when creating a new product.");
         
         Collectable created = productService.createProduct(request);
         return Response.created(URI.create("/v1/product/%s".formatted(created.getId()))).entity(created).build();

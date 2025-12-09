@@ -85,7 +85,7 @@ public class ProductService {
     private Collectable convertProductEntityToModel(Product entity) {
         Collectable model = new Collectable();
         model.setId(entity.getId());
-        model.setSet(entity.getSetName());
+        model.setSetName(entity.getSetName());
         model.setType(entity.getProductType());
         model.setReleaseDate(entity.getReleaseDate());
         model.setPurchaseDate(entity.getPurchaseDate());
@@ -98,7 +98,7 @@ public class ProductService {
     private Product convertCollectableModelToEntity(Collectable model) {
         Product entity = new Product();
         entity.setId(model.getId());
-        entity.setSetName(model.getSet());
+        entity.setSetName(model.getSetName());
         entity.setProductType(model.getType());
         entity.setReleaseDate(model.getReleaseDate());
         entity.setPurchaseDate(model.getPurchaseDate());
