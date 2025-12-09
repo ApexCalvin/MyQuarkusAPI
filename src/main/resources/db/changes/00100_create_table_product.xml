@@ -29,7 +29,7 @@
             <column name="PURCHASE_PRICE" type="DECIMAL(10,2)">
                 <constraints nullable="false"/>
             </column>
-            <column name="SPECIAL_EDITION" type="VARCHAR(10)" defaultValue="NO">
+            <column name="SPECIAL_EDITION" type="CHAR(1)" defaultValue="N">
                 <constraints nullable="false"/>
             </column>
             <!-- ModifiableEntity fields -->
