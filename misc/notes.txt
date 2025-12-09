@@ -52,3 +52,9 @@ To-Do
 Liquibase to populate data
 
 MapStruct DTO mapper
+
+
+-----
+
+Running Error
+/__cacert_entrypoint.sh: line 114: /app/wait-for-mysql.sh: cannot execute: required file not found
