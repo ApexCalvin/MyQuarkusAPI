@@ -1,9 +1,12 @@
-package org.ksm.resource;
+package org.demo.resource;
 
 import java.net.URI;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.demo.exception.UnprocessableEntityException;
+import org.demo.model.Collectable;
+import org.demo.service.ProductService;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
@@ -12,9 +15,6 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
-import org.ksm.exception.UnprocessableEntityException;
-import org.ksm.model.Collectable;
-import org.ksm.service.ProductService;
 
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;

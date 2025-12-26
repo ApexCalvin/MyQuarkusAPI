@@ -1,4 +1,4 @@
-package org.ksm.entity.base;
+package org.demo.entity.base;
 
 /**
  * Interface for objects with an identification field.

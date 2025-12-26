@@ -1,12 +1,12 @@
-package org.ksm.model.base;
+package org.demo.model.base;
 
 import java.time.ZonedDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 
+import org.demo.entity.converter.ZonedDateTimeConverter;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
-import org.ksm.entity.converter.ZonedDateTimeConverter;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

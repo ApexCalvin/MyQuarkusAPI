@@ -1,11 +1,11 @@
-package org.ksm.service;
+package org.demo.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.ksm.entity.Product;
-import org.ksm.model.Collectable;
-import org.ksm.repository.ProductRepository;
+import org.demo.entity.Product;
+import org.demo.model.Collectable;
+import org.demo.repository.ProductRepository;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

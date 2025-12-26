@@ -1,4 +1,4 @@
-package org.ksm.resource;
+package org.demo.resource;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.NotFoundException;
@@ -16,11 +16,12 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.demo.exception.UnprocessableEntityException;
+import org.demo.model.Collectable;
+import org.demo.resource.ProductResource;
+import org.demo.service.ProductService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.ksm.exception.UnprocessableEntityException;
-import org.ksm.model.Collectable;
-import org.ksm.service.ProductService;
 
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;

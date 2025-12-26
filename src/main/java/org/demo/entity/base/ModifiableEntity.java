@@ -1,4 +1,4 @@
-package org.ksm.entity.base;
+package org.demo.entity.base;
 
 import java.time.LocalDateTime;
 

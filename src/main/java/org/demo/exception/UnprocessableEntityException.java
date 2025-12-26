@@ -1,4 +1,4 @@
-package org.ksm.exception;
+package org.demo.exception;
 
 import jakarta.ws.rs.ClientErrorException;
 

@@ -1,4 +1,4 @@
-package org.ksm.service;
+package org.demo.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -12,11 +12,12 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.demo.service.ProductService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.ksm.entity.Product;
-import org.ksm.model.Collectable;
-import org.ksm.repository.ProductRepository;
+import org.demo.entity.Product;
+import org.demo.model.Collectable;
+import org.demo.repository.ProductRepository;
 
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;

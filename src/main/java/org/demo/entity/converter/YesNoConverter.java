@@ -1,4 +1,4 @@
-package org.ksm.entity.converter;
+package org.demo.entity.converter;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

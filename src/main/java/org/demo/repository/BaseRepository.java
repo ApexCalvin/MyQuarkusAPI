@@ -1,4 +1,4 @@
-package org.ksm.repository;
+package org.demo.repository;
 
 import java.util.List;
 

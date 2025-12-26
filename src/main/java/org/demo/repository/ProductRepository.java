@@ -1,8 +1,8 @@
-package org.ksm.repository;
+package org.demo.repository;
 
 import java.util.List;
 
-import org.ksm.entity.Product;
+import org.demo.entity.Product;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;

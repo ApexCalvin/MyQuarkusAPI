@@ -1,58 +1,74 @@
-package org.ksm.model;
+package org.demo.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.demo.entity.base.ModifiableEntity;
+import org.hibernate.type.YesNoConverter;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-/** Model class for Product */
+/** Entity class for Product */
+@Entity
+@Table(name = Product.TABLE_NAME)
 @NoArgsConstructor
-@AllArgsConstructor
 @Data
-@Schema(description = "Request object for Product")
-public class Collectable {
+@EqualsAndHashCode(callSuper=false)
+public class Product extends ModifiableEntity {
     
+    public static final String TABLE_NAME = "PRODUCT";
+
     @Id
     @Size(max = 36)
-    @Schema(description = "Unique identifier", examples = "abcd-1234-efgh-5678")
+    @Column(name = "ID")
     private String id;
 
     @NotBlank(message = "Set is required") 
     @Size(max = 50, message = "Set must be less than 50 characters") 
-    @Schema(description = "Set of collectable", examples = {"Steam Siege", "Roaring Skies", "Ancient Origins"})
+    @Column(name = "SET_NAME")
     private String setName;
 
     @NotBlank(message = "Type is required") 
     @Size(max = 50, message = "Type must be less than 50 characters") 
-    @Schema(description = "Type of collectable", examples = {"Booster Box", "Elite Trainer Box", "Booster Bundle"})
-    private String type;
+    @Column(name = "PRODUCT_TYPE")
+    private String productType;
 
     @NotEmpty(message = "Release Date is required") 
-    @Schema(description = "Release date of collectable")
+    @Column(name = "RELEASE_DATE")
     private LocalDate releaseDate;
 
     @NotEmpty(message = "Purchase Date is required") 
-    @Schema(description = "Purchase date of collectable")
+    @Column(name = "PURCHASE_DATE")
     private LocalDate purchaseDate;
 
     @NotNull(message = "Release price is required") 
-    @Schema(description = "Release price of collectable")
+    @Column(name = "RELEASE_PRICE")
     private BigDecimal releasePrice;
 
     @NotNull(message = "Purchase price is required") 
-    @Schema(description = "Purchase price of collectable")
+    @Column(name = "PURCHASE_PRICE")
     private BigDecimal purchasePrice;
 
     @NotNull(message = "Special Edition is required")
-    @Schema(description = "If the collectable is a special edition")
+    @Convert(converter = YesNoConverter.class)
+    @Column(name = "SPECIAL_EDITION")
     private boolean specialEdition;
+
+    @Override
+    protected void onInsert() {
+        super.onInsert();
+
+        if (id == null) id = java.util.UUID.randomUUID().toString(); 
+    }
 }
