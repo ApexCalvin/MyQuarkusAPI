@@ -32,11 +32,23 @@
             <column name="SPECIAL_EDITION" type="VARCHAR(3)" defaultValue="NO">
                 <constraints nullable="false"/>
             </column>
-            <!-- ModifiableEntity fields -->
-            <column name="CREATED_BY" type="VARCHAR(10)" defaultValue="SYSTEM"/>
-            <column name="CREATED_DATE" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
-            <column name="MODIFIED_BY" type="VARCHAR(10)"/>
-            <column name="MODIFIED_DATE" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            
+            <!-- Audit Columns set up for MySQL -->
+            <column name="CREATED_BY"
+                type="VARCHAR(10)"
+                defaultValue="SYSTEM"
+                remarks="The user who created the record"/>
+            <column name="MODIFIED_BY"
+                type="VARCHAR(10)"
+                remarks="The last user who modified the record"/>
+            <column name="CREATED_DATE"
+                type="TIMESTAMP"
+                remarks="The date and time the record was created"
+                defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="MODIFIED_DATE"
+                type="TIMESTAMP"
+                remarks="The date and time the record was modified"
+                defaultValueComputed="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>

@@ -4,8 +4,13 @@
 	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
+	<!-- creates PRODUCT SET table-->
+	
+	<include file="changes/00100_create_table_product_set.xml" relativeToChangelogFile="true" />
+	<!-- creates PRODUCT TYPE table-->
+	<include file="changes/00200_create_table_product_type.xml" relativeToChangelogFile="true" />
 	<!-- creates PRODUCT table-->
-	<include file="changes/00100_create_table_product.xml" relativeToChangelogFile="true" />
+	<include file="changes/00300_create_table_product.xml" relativeToChangelogFile="true" />
 	<!-- load CSV data into PRODUCT table -->
-	<include file="changes/00101_load_table_product.xml" relativeToChangelogFile="true"/>
+	<include file="changes/00301_load_table_product.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
