@@ -18,7 +18,6 @@ import java.util.List;
 
 import org.demo.exception.UnprocessableEntityException;
 import org.demo.model.Collectable;
-import org.demo.resource.ProductResource;
 import org.demo.service.ProductService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,18 +37,18 @@ public class ProductResourceTest {
     @Test
     @DisplayName("Get all products - success")
     void getProducts_success() {
-    // Arrange
-    List<Collectable> models = List.of(
-        new Collectable(
-            "abcd-1234-efgh-5678",
-            "Steam Siege",
-            "Booster Box",
-            null, // releaseDate
-            null, // purchaseDate
-            BigDecimal.valueOf(0), // releasePrice
-            BigDecimal.valueOf(0), // purchasePrice
-            false // specialEdition
-        ));
+        // Arrange
+        List<Collectable> models = List.of(
+            new Collectable(
+                "abcd-1234-efgh-5678",
+                "Steam Siege",
+                "Booster Box",
+                null, // releaseDate
+                null, // purchaseDate
+                BigDecimal.valueOf(0), // releasePrice
+                BigDecimal.valueOf(0), // purchasePrice
+                false // specialEdition
+            ));
 
         when(productService.getProducts()).thenReturn(models);
 
@@ -151,7 +150,7 @@ public class ProductResourceTest {
     }
 
     @Test
-    @DisplayName("Create product - ID should be empty")
+    @DisplayName("Create product - ID must be empty")
     void createProduct_IDProvided() {
         // Arrange
         Collectable request = new Collectable();
@@ -258,6 +257,29 @@ public class ProductResourceTest {
             () -> resource.updateProduct(pathId, request));
         assertEquals("Product ID in the path must match the ID in the request body.", exception.getMessage());
         verify(productService, never()).updateProduct(pathId, request);
+        verifyNoMoreInteractions(productService);
+    }
+
+    @Test
+    @DisplayName("Update product - product not found")
+    void updateProduct_notFound() {
+        // Arrange
+        String id = "abcd-1234";
+
+        Collectable request = new Collectable();
+        request.setId(id);
+        request.setSetName("Ancient Origins");
+        request.setType("Booster Bundle");
+
+        String message = "Product Not Found";
+        when(productService.updateProduct(id, request)).thenThrow(new NotFoundException(message));
+
+        // Act & Assert
+        NotFoundException exception = assertThrows(NotFoundException.class, 
+            () -> resource.updateProduct(id, request));
+        assertEquals(Response.Status.NOT_FOUND.getStatusCode(), exception.getResponse().getStatus());
+        assertEquals(message, exception.getMessage());
+        verify(productService).updateProduct(id, request);
         verifyNoMoreInteractions(productService);
     }
 }    
