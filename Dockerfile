@@ -7,7 +7,7 @@ WORKDIR /app
 # Copy only the pom
 COPY pom.xml .
 
-# Download proj dependencies from pom without actually compiling the code
+# Download project dependencies from pom without actually compiling the code
 RUN mvn dependency:go-offline
 
 # Copy over src code

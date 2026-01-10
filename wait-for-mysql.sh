@@ -1,7 +1,9 @@
 #!/bin/sh
 echo "Waiting for MySQL..."
-while ! nc -z mysql 3306; do
-  sleep 1
+
+until nc -z mysql 3306; do
+  sleep 2
 done
-echo "MySQL is up - starting Quarkus"
+
+echo "MySQL is ready - starting Quarkus"
 exec java -jar quarkus-run.jar
