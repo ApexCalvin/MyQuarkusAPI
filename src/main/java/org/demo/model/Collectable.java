@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/** Model class for Product */
+/** Model class for {@link Product} */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data

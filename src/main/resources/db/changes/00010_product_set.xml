@@ -8,26 +8,26 @@
     
     <changeSet author="QUARKUS_DEMO" id="PRODUCT_SET">
         <createTable tableName="PRODUCT_SET" remarks="Table to store product set information">
-            <column name="SET_CODE" type="VARCHAR(10)" remarks="Unique code for the set">
+            <column name="CODE" type="VARCHAR(10)" remarks="Unique code for the set">
                 <constraints primaryKey="true" nullable="false" primaryKeyName="PK_PRODUCT_SET"/>
             </column>
-            <column name="SET_NAME" type="VARCHAR(50)" remarks="Name of the set">
+            <column name="NAME" type="VARCHAR(255)" remarks="Name of the set">
                 <constraints nullable="false"/>
             </column>
-            <column name="SPECIALTY" type="VARCHAR(3)" defaultValue="NO" remarks="Indicates if the set is a specialty set">
+            <column name="SPECIALTY" type="VARCHAR(3)" defaultValue="NO" remarks="Indicates if it is a specialty set">
                 <constraints nullable="false"/>
             </column>
-            <column name="SET_RELEASE_DATE" type="DATE" remarks="Release date of the set">
+            <column name="RELEASE_DATE" type="DATE" remarks="Release date of the set">
                 <constraints nullable="true"/>
             </column>
-            <column name="SET_SERIES" type="VARCHAR(50)" remarks="Series to which the set belongs">
-                <constraints nullable="false"/>
+            <column name="SERIES" type="VARCHAR(255)" remarks="Series to which the set belongs">
+                <constraints nullable="true"/>
             </column>
         </createTable>
 
         <addUniqueConstraint
             tableName="PRODUCT_SET"
-            columnNames="SET_NAME"
-            constraintName="UNIQUE_SET_NAME"/>
+            columnNames="NAME"
+            constraintName="UNIQUE_PRODUCT_SET_NAME"/>
     </changeSet>
 </databaseChangeLog>

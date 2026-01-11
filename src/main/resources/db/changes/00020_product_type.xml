@@ -1,0 +1,27 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="
+    http://www.liquibase.org/xml/ns/dbchangelog 
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    
+    <changeSet author="QUARKUS_DEMO" id="PRODUCT_TYPE">
+        <createTable tableName="PRODUCT_TYPE" remarks="Table to store product type information">
+            <column name="NAME" type="VARCHAR(255)" remarks="Unique name for the product type">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="PK_PRODUCT_TYPE"/>
+            </column>
+            <column name="MSRP" type="DECIMAL(10,2)" remarks="The manufacturer's suggested retail price">
+                <constraints nullable="true"/>
+            </column>
+            <column name="BOOSTER_COUNT" type="INTEGER" remarks="The amount of boosters in the product type">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+            tableName="PRODUCT_TYPE"
+            columnNames="NAME"
+            constraintName="UNIQUE_PRODUCT_TYPE_NAME"/>
+    </changeSet>
+</databaseChangeLog>
