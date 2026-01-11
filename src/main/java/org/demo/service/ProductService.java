@@ -85,26 +85,16 @@ public class ProductService {
     private Collectable convertProductEntityToModel(Product entity) {
         Collectable model = new Collectable();
         model.setId(entity.getId());
-        model.setSetName(entity.getSetName());
         model.setType(entity.getProductType());
-        model.setReleaseDate(entity.getReleaseDate());
-        model.setPurchaseDate(entity.getPurchaseDate());
-        model.setReleasePrice(entity.getReleasePrice());
         model.setPurchasePrice(entity.getPurchasePrice());
-        model.setSpecialEdition(entity.isSpecialEdition());
         return model;
     }
 
     private Product convertCollectableModelToEntity(Collectable model) {
         Product entity = new Product();
         entity.setId(model.getId());
-        entity.setSetName(model.getSetName());
         entity.setProductType(model.getType());
-        entity.setReleaseDate(model.getReleaseDate());
-        entity.setPurchaseDate(model.getPurchaseDate());
-        entity.setReleasePrice(model.getReleasePrice());
         entity.setPurchasePrice(model.getPurchasePrice());
-        entity.setSpecialEdition(model.isSpecialEdition());
         return entity;
     }
 }
