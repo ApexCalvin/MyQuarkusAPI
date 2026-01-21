@@ -1,6 +1,12 @@
 services:
+  # MySQL Database container
+  # Provides the main database for the application
+  # Exposes port 3306 for database connections
+  # Uses mysql:8.0 image for a lightweight MySQL instance
+  # JDBC URL: jdbc:mysql://localhost:3306/demodb
   mysql:
     image: mysql:8.0
+    container_name: database-quarkusDemo
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: demodb
@@ -8,8 +14,14 @@ services:
       MYSQL_PASSWORD: password
     ports:
       - "3308:3306"
-  backend:
+
+  # Quarkus Application container
+  # Builds the Quarkus application from the current directory
+  # Exposes port 8082 for application access
+  # Connects to the MySQL database defined above
+  app:
     build: .
+    container_name: app-quarkusDemo
     ports:
       - "8082:8080"
     environment:
@@ -18,3 +30,12 @@ services:
       QUARKUS_DATASOURCE_PASSWORD: password
     depends_on:
       - mysql
+
+  # Mail testing and development SMTP server
+  # Provides a local SMTP server for email testing
+  mailpit:
+    image: axllent/mailpit
+    container_name: mailpit-quarkusDemo
+    ports:
+      - 1027:1025 # SMTP Server
+      - 8027:8025 # Web UI for email inspection

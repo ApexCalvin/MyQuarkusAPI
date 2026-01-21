@@ -129,6 +129,11 @@
             <artifactId>quarkus-junit5-mockito</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- Quarkus Mailer extension for sending emails -->
+        <dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-mailer</artifactId>
+		</dependency>
     </dependencies>
 
     <build>
