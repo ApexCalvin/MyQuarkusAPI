@@ -1,4 +1,4 @@
-package org.ksm.uh;
+package org.demo.lesson;
 
 import org.ksm.entity.HeroResponse;
 import org.ksm.model.HeroRequest;
@@ -19,7 +19,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 
 @Path("/excercise/deepMerge")
-public class DeepMergeResource {
+public class AlgorithmService {
 
     @Inject
     HeroRepository heroRepository;
