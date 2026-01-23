@@ -134,6 +134,11 @@
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-mailer</artifactId>
 		</dependency>
+        <!-- Quarkus Scheduler extension for scheduled tasks -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-scheduler</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

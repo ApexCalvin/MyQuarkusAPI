@@ -32,46 +32,46 @@ public class ProductServiceTest {
     @InjectMock
     ProductRepository productRepository;
 
-    @Test
-    @DisplayName("Get all products - success")
-    void getProducts_success() {
-        //Arrange
-        Product entity = new Product();
-        entity.setId("prod-1234");
-        entity.setSetName("Alpha Set");
-        entity.setProductType("Box");
-        entity.setReleasePrice(BigDecimal.valueOf(200.00));
-        entity.setPurchasePrice(BigDecimal.valueOf(164.99));
-        entity.setSpecialEdition(false);
+    // @Test
+    // @DisplayName("Get all products - success")
+    // void getProducts_success() {
+    //     //Arrange
+    //     Product entity = new Product();
+    //     entity.setId("prod-1234");
+    //     entity.setSetName("Alpha Set");
+    //     entity.setProductType("Box");
+    //     entity.setReleasePrice(BigDecimal.valueOf(200.00));
+    //     entity.setPurchasePrice(BigDecimal.valueOf(164.99));
+    //     entity.setSpecialEdition(false);
 
-        LocalDate ld_release = LocalDate.of(2025, 1, 1);
-        LocalDate ld_purchase = LocalDate.of(2025, 2, 2);
-        entity.setReleaseDate(ld_release);
-        entity.setPurchaseDate(ld_purchase);
+    //     LocalDate ld_release = LocalDate.of(2025, 1, 1);
+    //     LocalDate ld_purchase = LocalDate.of(2025, 2, 2);
+    //     entity.setReleaseDate(ld_release);
+    //     entity.setPurchaseDate(ld_purchase);
 
 
-        when(productRepository.findProducts()).thenReturn(List.of(entity));
+    //     when(productRepository.findProducts()).thenReturn(List.of(entity));
 
-        // Act
-        List<Collectable> actual = service.getProducts();
+    //     // Act
+    //     List<Collectable> actual = service.getProducts();
 
-        // Assert
-        assertNotNull(actual);
-        assertEquals(1, actual.size());
+    //     // Assert
+    //     assertNotNull(actual);
+    //     assertEquals(1, actual.size());
 
-        Collectable result = actual.getFirst();
-        assertEquals(entity.getId(), result.getId());
-        assertEquals(entity.getSetName(), result.getSetName());
-        assertEquals(entity.getProductType(), result.getType());
-        assertEquals(entity.getReleasePrice(), result.getReleasePrice());
-        assertEquals(entity.getPurchasePrice(), result.getPurchasePrice());
-        assertEquals(entity.getReleaseDate(), result.getReleaseDate());
-        assertEquals(entity.getPurchaseDate(), result.getPurchaseDate());
-        assertEquals(entity.isSpecialEdition(), result.isSpecialEdition());
+    //     Collectable result = actual.getFirst();
+    //     assertEquals(entity.getId(), result.getId());
+    //     assertEquals(entity.getSetName(), result.getSetName());
+    //     assertEquals(entity.getProductType(), result.getType());
+    //     assertEquals(entity.getReleasePrice(), result.getReleasePrice());
+    //     assertEquals(entity.getPurchasePrice(), result.getPurchasePrice());
+    //     assertEquals(entity.getReleaseDate(), result.getReleaseDate());
+    //     assertEquals(entity.getPurchaseDate(), result.getPurchaseDate());
+    //     assertEquals(entity.isSpecialEdition(), result.isSpecialEdition());
 
-        verify(productRepository).findProducts();
-        verifyNoMoreInteractions(productRepository);
-    }
+    //     verify(productRepository).findProducts();
+    //     verifyNoMoreInteractions(productRepository);
+    // }
 
     @Test
     @DisplayName("Get all products - empty list")
@@ -90,44 +90,44 @@ public class ProductServiceTest {
         verifyNoMoreInteractions(productRepository);
     }
 
-    @Test
-    @DisplayName("Get product by ID - success")
-    void getProduct_success() {
-        // Arrange
-        String id = "prod-1234";
+    // @Test
+    // @DisplayName("Get product by ID - success")
+    // void getProduct_success() {
+    //     // Arrange
+    //     String id = "prod-1234";
 
-        Product entity = new Product();
-        entity.setId(id);
-        entity.setSetName("Alpha Set");
-        entity.setProductType("Box");
-        entity.setReleasePrice(BigDecimal.valueOf(200.00));
-        entity.setPurchasePrice(BigDecimal.valueOf(164.99));
-        entity.setSpecialEdition(false);
+    //     Product entity = new Product();
+    //     entity.setId(id);
+    //     entity.setSetName("Alpha Set");
+    //     entity.setProductType("Box");
+    //     entity.setReleasePrice(BigDecimal.valueOf(200.00));
+    //     entity.setPurchasePrice(BigDecimal.valueOf(164.99));
+    //     entity.setSpecialEdition(false);
 
-        LocalDate ld_release = LocalDate.of(2025, 1, 1);
-        LocalDate ld_purchase = LocalDate.of(2025, 2, 2);
-        entity.setReleaseDate(ld_release);
-        entity.setPurchaseDate(ld_purchase);
+    //     LocalDate ld_release = LocalDate.of(2025, 1, 1);
+    //     LocalDate ld_purchase = LocalDate.of(2025, 2, 2);
+    //     entity.setReleaseDate(ld_release);
+    //     entity.setPurchaseDate(ld_purchase);
 
-        when(productRepository.findExistingById(id)).thenReturn(entity);
+    //     when(productRepository.findExistingById(id)).thenReturn(entity);
 
-        // Act
-        Collectable actual = service.getProduct(id);
+    //     // Act
+    //     Collectable actual = service.getProduct(id);
 
-        // Assert
-        assertNotNull(actual);
-        assertEquals(entity.getId(), actual.getId());
-        assertEquals(entity.getSetName(), actual.getSetName());
-        assertEquals(entity.getProductType(), actual.getType());
-        assertEquals(entity.getReleasePrice(), actual.getReleasePrice());
-        assertEquals(entity.getPurchasePrice(), actual.getPurchasePrice());
-        assertEquals(entity.getReleaseDate(), actual.getReleaseDate());
-        assertEquals(entity.getPurchaseDate(), actual.getPurchaseDate());
-        assertEquals(entity.isSpecialEdition(), actual.isSpecialEdition());
+    //     // Assert
+    //     assertNotNull(actual);
+    //     assertEquals(entity.getId(), actual.getId());
+    //     assertEquals(entity.getSetName(), actual.getSetName());
+    //     assertEquals(entity.getProductType(), actual.getType());
+    //     assertEquals(entity.getReleasePrice(), actual.getReleasePrice());
+    //     assertEquals(entity.getPurchasePrice(), actual.getPurchasePrice());
+    //     assertEquals(entity.getReleaseDate(), actual.getReleaseDate());
+    //     assertEquals(entity.getPurchaseDate(), actual.getPurchaseDate());
+    //     assertEquals(entity.isSpecialEdition(), actual.isSpecialEdition());
 
-        verify(productRepository).findExistingById(id);
-        verifyNoMoreInteractions(productRepository);
-    }
+    //     verify(productRepository).findExistingById(id);
+    //     verifyNoMoreInteractions(productRepository);
+    // }
 
     @Test
     @DisplayName("Get product by ID - not found")

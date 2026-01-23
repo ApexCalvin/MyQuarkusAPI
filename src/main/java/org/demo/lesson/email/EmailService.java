@@ -1,26 +1,61 @@
 package org.demo.lesson.email;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
 import io.quarkus.mailer.Mail;
 import io.quarkus.mailer.Mailer;
+import io.quarkus.qute.Location;
+import io.quarkus.qute.Template;
+import io.quarkus.qute.TemplateInstance;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import lombok.extern.jbosslog.JBossLog;
 
 @ApplicationScoped
+@JBossLog
 public class EmailService {
     
     /** Injected Quarkus Mailer instance for sending emails. */
     @Inject
     Mailer mailer;
 
-    public void generateEmail(String email) {
-    sendEmail(org.demo.lesson.email.EmailNotificationRequest.builder()
-            .recipients(List.of(email))
-            .subject("Test Email")
-            .content("This is a test email sent from Quarkus.")
-            .build());
+    /** Qute template for rendering html body emails. */
+    @Inject
+    @Location("email-alert.html")
+    Template emailAlert;
+
+    public void generateRawTextEmail(String email) {
+        sendEmail(org.demo.lesson.email.EmailNotificationRequest.builder()
+                .recipients(List.of(email))
+                .subject("Test Email")
+                .content("This is a test email sent from Quarkus.")
+                .build());
+    }
+
+    public void generateHtmlBodyEmail(String email, String text) {
+        String htmlContent = renderEmailAlert(text);
+        sendEmail(org.demo.lesson.email.EmailNotificationRequest.builder()
+                .recipients(List.of(email))
+                .subject("Test Email")
+                .content(htmlContent)
+                .html(true)
+                .build());
+    }
+
+    private String renderEmailAlert(String text) {
+        log.debugf("Rendering email template");
+        // TODO (qute): edit CSS
+        TemplateInstance instance = emailAlert
+                .data("text", text)
+                .data("timestamp", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+
+        String htmlBody = instance.render();
+        log.debugf("Email template rendered successfully (%d characters)", htmlBody.length());
+
+        return htmlBody; 
     }
 
     public void sendEmail(EmailNotificationRequest request) {
@@ -61,6 +96,6 @@ public class EmailService {
 
         mailer.send(mail);
 
-        // TODO (mail): successful sends is not viewable in Mailpit UI, error 500 5.5.2 Syntax error, command unrecognized
+        // TODO (mail): Test & remove mailpit app.props
     }
 }

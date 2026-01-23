@@ -25,11 +25,20 @@ public class LessonResource {
     EmailService emailService;
 
     @GET
-    @Consumes(MediaType.TEXT_PLAIN)
     @Path("/sendEmail")
     @Operation(summary = "Send Email", description = "using Quarkus Mailer extension")
     public Response sendTestEmail(@QueryParam("Email") @Parameter(description = "The recipient email address", example = "example@noreply.com") @NotBlank String email) {
-        emailService.generateEmail(email);
+        emailService.generateRawTextEmail(email);
+        return Response.ok().build();
+    }
+
+    @GET
+    @Path("/sendHtmlEmail")
+    @Operation(summary = "Send Email with HTML Body", description = "using Quarkus Mailer extension and Qute template to render HTML body")
+    public Response sendTestHtmlEmail(
+          @QueryParam("Email") @Parameter(description = "The recipient email address", example = "example@noreply.com") @NotBlank String email, 
+          @QueryParam("Text") @Parameter(description = "Text to be displayed in the email", example = "Hello World!") @NotBlank String text) {
+        emailService.generateHtmlBodyEmail(email, text);
         return Response.ok().build();
     }
 }
