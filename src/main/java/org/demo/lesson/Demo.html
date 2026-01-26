@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tab name</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        
+        /* Container */
+        .email-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Header */
+        .header {
+            background-color: #395eff;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .header .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        /* Alert icon */
+        .alert-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        /* Content */
+        .content {
+            padding: 30px 20px;
+        }
+        
+        .summary {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .summary h2 {
+            color: #856404;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .summary p {
+            color: #856404;
+            font-size: 16px;
+            margin: 0;
+        }
+        
+        /* Feedback table */
+        .feedback-section h3 {
+            color: #395eff;
+            font-size: 20px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #395eff;
+            padding-bottom: 8px;
+        }
+        
+        ul {
+            list-style-type: none;
+            margin-bottom: 25px;
+        }
+        
+        ul li {
+            padding: 2px 0;
+            font-size: 16px;
+        }
+
+        .word-wrap {
+            word-break: break-all;
+        }
+
+        .word-wrap-safe-break {
+            overflow-wrap: normal;
+            word-break: normal;
+        }
+
+        .word-wrap-force-break {
+            word-break: break-all;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .footer p {
+            color: #6c757d;
+            font-size: 14px;
+            margin: 0;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .email-container {
+                margin: 0;
+                box-shadow: none;
+            }
+            
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .content {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="alert-icon">ℹ️</div>
+            <h1>Title</h1>
+            <div class="subtitle">subtitle</div>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <!-- Feedback Details -->
+            <div class="feedback-section">
+                <h3>Test</h3>
+                <tbody>
+                    <ul>
+                        <li><strong>Summary:</strong> Random text block</li>
+                        <li>
+                            <strong>Normal:</strong>
+                            <p>
+                                Lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem placerat in id cursus mi pretium tellus duis convallis tempus leo eu aenean sed diam urna tempor pulvinar vivamus fringilla lacus nec metus bibendum egestas iaculis massa nisl malesuada lacinia integer nunc posuere ut hendrerit semper vel class aptent taciti sociosqu ad litora torquent per conubia nostra inceptos himenaeos orci varius natoque penatibus et magnis dis parturient montes nascetur ridiculus mus donec rhoncus eros lobortis nulla molestie mattis scelerisque maximus eget fermentum odio phasellus non purus est efficitur laoreet mauris pharetra vestibulum fusce dictum risus blandit quis suspendisse aliquet nisi sodales consequat magna ante condimentum neque at luctus nibh finibus facilisis dapibus etiam interdum tortor ligula congue sollicitudin erat viverra ac tincidunt nam porta elementum a enim euismod quam justo lectus commodo augue arcu dignissim velit aliquam imperdiet mollis nullam volutpat porttitor ullamcorper rutrum gravida cras eleifend turpis fames primis vulputate ornare sagittis vehicula praesent dui felis venenatis ultrices proin libero feugiat tristique accumsan maecenas potenti ultricies habitant morbi senectus netus suscipit auctor curabitur facilisi cubilia curae hac habitasse platea dictumst lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem placerat in id cursus mi pretium tellus duis convallis tempus leo eu aenean sed diam urna tempor pulvinar vivamus fringilla lacus nec metus bibendum egestas iaculis massa nisl malesuada lacinia integer nunc posuere ut hendrerit semper vel class aptent taciti sociosqu ad litora torquent per conubia nostra inceptos himenaeos orci varius natoque penatibus et magnis dis parturient montes nascetur ridiculus mus donec rhoncus eros lobortis nulla molestie mattis scelerisque maximus eget fermentum odio phasellus non purus est efficitur laoreet mauris pharetra vestibulum fusce dictum risus blandit quis suspendisse aliquet nisi sodales consequat magna ante condimentum neque at luctus nibh finibus facilisis dapibus etiam interdum tortor ligula congue sollicitudin erat viverra ac tincidunt nam porta elementum a enimro feugiat tristique accumsan maecenas potenti ultricies habitant morbi senectus netus suscipit auctor curabitur facilisi cubilia curae hac habitasse platea dictumst lorem
+                            </p>
+                        </li>
+                        <li>
+                            <strong>word-break: break-all</strong>
+                            <p class="word-wrap-2">
+                                Lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem placerat in id cursus mi pretium tellus duis convallis tempus leo eu aenean sed diam urna tempor pulvinar vivamus fringilla lacus nec metus bibendum egestas iaculis massa nisl malesuada lacinia integer nunc posuere ut hendrerit semper vel class aptent taciti sociosqu ad litora torquent per conubia nostra inceptos himenaeos orci varius natoque penatibus et magnis dis parturient montes nascetur ridiculus mus donec rhoncus eros lobortis nulla molestie mattis scelerisque maximus eget fermentum odio phasellus non purus est efficitur laoreet mauris pharetra vestibulum fusce dictum risus blandit quis suspendisse aliquet nisi sodales consequat magna ante condimentum neque at luctus nibh finibus facilisis dapibus etiam interdum tortor ligula congue sollicitudin erat viverra ac tincidunt nam porta elementum a enim euismod quam justo lectus commodo augue arcu dignissim velit aliquam imperdiet mollis nullam volutpat porttitor ullamcorper rutrum gravida cras eleifend turpis fames primis vulputate ornare sagittis vehicula praesent dui felis venenatis ultrices proin libero feugiat tristique accumsan maecenas potenti ultricies habitant morbi senectus netus suscipit auctor curabitur facilisi cubilia curae hac habitasse platea dictumst lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem placerat in id cursus mi pretium tellus duis convallis tempus leo eu aenean sed diam urna tempor pulvinar vivamus fringilla lacus nec metus bibendum egestas iaculis massa nisl malesuada lacinia integer nunc posuere ut hendrerit semper vel class aptent taciti sociosqu ad litora torquent per conubia nostra inceptos himenaeos orci varius natoque penatibus et magnis dis parturient montes nascetur ridiculus mus donec rhoncus eros lobortis nulla molestie mattis scelerisque maximus eget fermentum odio phasellus non purus est efficitur laoreet mauris pharetra vestibulum fusce dictum risus blandit quis suspendisse aliquet nisi sodales consequat magna ante condimentum neque at luctus nibh finibus facilisis dapibus etiam interdum tortor ligula congue sollicitudin erat viverra ac tincidunt nam porta elementum a enimro feugiat tristique accumsan maecenas potenti ultricies habitant morbi senectus netus suscipit auctor curabitur facilisi cubilia curae hac habitasse platea dictumst lorem
+                            </p>
+                        </li>
+                        <li>
+                            <strong>Normal:</strong>
+                            <p>
+                            Loremipsumdolorsitametconsecteturadipiscingelitquisquefaucibusexsapienvitaepellentesemplaceratinidcursusmipretiumtellusduisconvallistempusleoeuaeneanseddiamurnatemporpulvinarvivamusfringillalacusnecmetusbibendumegestasiaculismassanislmalesuadalaciniaintegernuncposuereuthendreritsempervelclassaptenttacitisociosquadlitoratorquentperconubianostrainceptoshimenaeosorcivariusnatoquepenatibusetmagnisdisparturientmontesnasceturridiculusmusdonecrhoncuseroslobortisnullamolestiemattisscelerisquemaximusegetfermentumodiophasellusnonpurusestefficiturlaoreetmaurispharetravestibulumfuscedictumrisusblanditquissuspendissealiquetnisisodalesconsequatmagnaantecondimentumnequeatluctsnibhfinibusfacilisisdapibusetiaminterdumtortorligaconguesollicitudineratviverraactinciduntnamportaelementumaenimeuismodquamjustolectuscommodoaugearcu dignissimvelitaliquamimperdietmollisnullamvolutpatporttitorullamcorperrutrumgravidacraseleifendturpisfamesprimisvulputateornare sagittisvehiculapraesentduifelisvenenatisultricesproinliberofeugiat tristiqueaccumsanmaecenaspotentiultricieshabitantmorbisene ctusnetussuscipitauthorcurabiturfacilisicubiliacuraehachabitasseplateadictumstloremipsumdolorsitametconsecteturadipiscingelitquisquefaucibusexsapienvitaepellentesemplaceratinidcursusmipretiumtellusduisconvallistempusleoeuaeneanseddiamurnatemporpulvinarvivamusfringillalacusnecmetusbibendumegestasiaculismassanislmalesuadalaciniaintegernuncposuereuthendreritsempervelclassaptenttacitisociosquadlitoratorquentperconubianostrainceptoshimenaeosorcivariusnatoquepenatibusetmagnisdisparturientmontesnasceturridiculusmusdonecrhoncuseroslobortisnullamolestiemattisscelerisquemaximusegetfermentumodiophasellusnonpurusestefficiturlaoreetmaurispharetravestibulumfuscedictumrisusblanditquissuspendissealiquetnisisodalesconsequatmagnaantecondimentumnequeatluctsnibhfinibusfacilisisdapibusetiaminterdumtortorligaconguesollicitudineratviverraactinciduntnamportaelementumaenimrofeugiat tristiqueaccumsanmaecenaspotentiultricieshabitantmorbisene ctusnetussuscipitauthorcurabiturfacilisicubiliacuraehachabitasseplateadictumstlorem
+                            </p>
+                        </li>
+                        <li>
+                            <strong>word-break: break-all</strong>
+                            <p class="word-wrap-1">
+                            Loremipsumdolorsitametconsecteturadipiscingelitquisquefaucibusexsapienvitaepellentesemplaceratinidcursusmipretiumtellusduisconvallistempusleoeuaeneanseddiamurnatemporpulvinarvivamusfringillalacusnecmetusbibendumegestasiaculismassanislmalesuadalaciniaintegernuncposuereuthendreritsempervelclassaptenttacitisociosquadlitoratorquentperconubianostrainceptoshimenaeosorcivariusnatoquepenatibusetmagnisdisparturientmontesnasceturridiculusmusdonecrhoncuseroslobortisnullamolestiemattisscelerisquemaximusegetfermentumodiophasellusnonpurusestefficiturlaoreetmaurispharetravestibulumfuscedictumrisusblanditquissuspendissealiquetnisisodalesconsequatmagnaantecondimentumnequeatluctsnibhfinibusfacilisisdapibusetiaminterdumtortorligaconguesollicitudineratviverraactinciduntnamportaelementumaenimeuismodquamjustolectuscommodoaugearcu dignissimvelitaliquamimperdietmollisnullamvolutpatporttitorullamcorperrutrumgravidacraseleifendturpisfamesprimisvulputateornare sagittisvehiculapraesentduifelisvenenatisultricesproinliberofeugiat tristiqueaccumsanmaecenaspotentiultricieshabitantmorbisene ctusnetussuscipitauthorcurabiturfacilisicubiliacuraehachabitasseplateadictumstloremipsumdolorsitametconsecteturadipiscingelitquisquefaucibusexsapienvitaepellentesemplaceratinidcursusmipretiumtellusduisconvallistempusleoeuaeneanseddiamurnatemporpulvinarvivamusfringillalacusnecmetusbibendumegestasiaculismassanislmalesuadalaciniaintegernuncposuereuthendreritsempervelclassaptenttacitisociosquadlitoratorquentperconubianostrainceptoshimenaeosorcivariusnatoquepenatibusetmagnisdisparturientmontesnasceturridiculusmusdonecrhoncuseroslobortisnullamolestiemattisscelerisquemaximusegetfermentumodiophasellusnonpurusestefficiturlaoreetmaurispharetravestibulumfuscedictumrisusblanditquissuspendissealiquetnisisodalesconsequatmagnaantecondimentumnequeatluctsnibhfinibusfacilisisdapibusetiaminterdumtortorligaconguesollicitudineratviverraactinciduntnamportaelementumaenimrofeugiat tristiqueaccumsanmaecenaspotentiultricieshabitantmorbisene ctusnetussuscipitauthorcurabiturfacilisicubiliacuraehachabitasseplateadictumstlorem
+                            </p>
+                        </li>
+                    </ul>
+                </tbody>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>This is the footer</p>
+        </div>
+    </div>
+</body>
+</html> 
