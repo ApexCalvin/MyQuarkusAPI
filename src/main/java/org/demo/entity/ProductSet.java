@@ -47,4 +47,7 @@ public class ProductSet {
     @Size(max = 255)
     @Column(name = "SERIES")
     private String series;
+
+    @Column(name = "BLOB_NO")
+    private Long blobNo;
 }
