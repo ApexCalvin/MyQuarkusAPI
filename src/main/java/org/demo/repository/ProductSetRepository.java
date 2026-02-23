@@ -2,9 +2,11 @@ package org.demo.repository;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.demo.entity.ProductSet;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.LockModeType;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 import lombok.extern.jbosslog.JBossLog;
@@ -34,5 +36,10 @@ public class ProductSetRepository extends BaseRepository<ProductSet, String>{
      */
     public ProductSet findExistingById(String code) {
         return findByIdOptional(code).orElseThrow(() -> new NotFoundException("Set not found: " + code));
+    }
+
+    public ProductSet findExistingById(String id, LockModeType lockModeType) {
+        return findByIdOptional(StringUtils.lowerCase(id), lockModeType)
+                .orElseThrow(() -> new NotFoundException("Product set not found: " + id));
     }
 }
