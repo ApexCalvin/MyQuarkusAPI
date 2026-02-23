@@ -14,7 +14,7 @@ import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.PathParam;
 import lombok.extern.jbosslog.JBossLog;
 
-/** Service class for managing product-related operations. **/
+/** Service class for managing {@Link Product}-related operations. **/
 @ApplicationScoped
 @Transactional
 @JBossLog

@@ -1,4 +1,4 @@
-package org.demo.lesson;
+package org.demo.lesson.practice;
 
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
