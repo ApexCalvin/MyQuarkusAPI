@@ -16,4 +16,6 @@
 	<include file="changes/00030_product.xml" relativeToChangelogFile="true"/>
 	<!-- load PRODUCT table data -->
 	<include file="changes/00031_load_product.xml" relativeToChangelogFile="true"/>
+	<!-- creates BLOB STORE table -->
+	<include file="changes/00040_blob_store.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

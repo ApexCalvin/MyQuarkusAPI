@@ -1,0 +1,50 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="
+    http://www.liquibase.org/xml/ns/dbchangelog 
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    
+    <changeSet author="QUARKUS_DEMO" id="BLOB_STORE">
+        <createTable tableName="BLOB_STORE" remarks="Table to store blob information">
+			
+            <column name="BLOB_NO" type="BIGINT" remarks="Unique identifier for the blob">
+				<constraints nullable="false"/>
+			</column>
+			<column name="BLOB_LINE" type="BIGINT" remarks="Line number within the blob for grouping attachments">
+				<constraints nullable="false"/>
+			</column>
+
+			<column name="BLOB_ITEM" type="MEDIUMBLOB" remarks="The binary data of the blob"/>
+			<column name="BLOB_NAME" type="VARCHAR(500)" remarks="Name of the blob"/>
+			<column name="BLOB_TYPE" type="VARCHAR(10)" remarks="Type of the blob"/>
+			<column name="DOC_TYPE" type="VARCHAR(10)" remarks="Document type associated with the blob"/>
+			<column name="MIME_TYPE" type="VARCHAR(120)" remarks="MIME type for the blob"/>
+		    <column name="FROM_TABLE" type="VARCHAR(100)" remarks="Table from which the blob originated"/>
+
+            <!-- Audit Columns set up for MySQL -->
+            <column name="CREATED_BY"
+                type="VARCHAR(10)"
+                defaultValue="SYSTEM"
+                remarks="The user who created the record"/>
+            <column name="MODIFIED_BY"
+                type="VARCHAR(10)"
+                remarks="The last user who modified the record"/>
+            <column name="CREATED_DATE"
+                type="TIMESTAMP"
+                remarks="The date and time the record was created"
+                defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="MODIFIED_DATE"
+                type="TIMESTAMP"
+                remarks="The date and time the record was modified"
+                defaultValueComputed="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"/>
+        </createTable>
+
+        <!-- Composite Primary Key -->
+        <addPrimaryKey
+            tableName="BLOB_STORE"
+            columnNames="BLOB_NO, BLOB_LINE"
+            constraintName="PK_BLOB_STORE"/>
+    </changeSet>
+</databaseChangeLog>

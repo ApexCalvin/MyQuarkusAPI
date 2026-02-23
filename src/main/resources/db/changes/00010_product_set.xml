@@ -22,7 +22,10 @@
             </column>
             <column name="SERIES" type="VARCHAR(255)" remarks="Series to which the set belongs">
                 <constraints nullable="true"/>
-            </column>
+            </column> 
+            <column name="BLOB_NO" type="BIGINT" remarks="Blob number associated with the set, max 8 digits">
+                <constraints nullable="true"/>
+            </column> 
         </createTable>
 
         <addUniqueConstraint
