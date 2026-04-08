@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.demo.entity.ProductSet;
+import org.demo.service.CacheService;
 
+import io.quarkus.cache.CacheResult;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.LockModeType;
 import jakarta.transaction.Transactional;

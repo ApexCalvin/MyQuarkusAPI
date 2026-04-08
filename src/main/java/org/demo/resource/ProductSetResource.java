@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.demo.exception.UnprocessableEntityException;
 import org.demo.model.EnglishSet;
+import org.demo.service.CacheService;
 import org.demo.service.ProductSetService;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
@@ -16,6 +17,7 @@ import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
+import io.quarkus.cache.CacheResult;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
@@ -29,23 +31,27 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import lombok.extern.jbosslog.JBossLog;
 
 @Path("/v1/set")
 @Tag(name = "Set", description = "Operations for managing Product Set")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@JBossLog
 public class ProductSetResource {
 
     @Inject
     ProductSetService setService;
 
     @GET
+    @CacheResult(cacheName = CacheService.CACHE_PRODUCT_SET)
     @Operation(summary = "Get all sets", description = "Retrieves all sets")
     @APIResponse(responseCode = "200", description = "Sets retrieved successfully",
         content = @Content(
             mediaType = MediaType.APPLICATION_JSON, 
             schema = @Schema(implementation = EnglishSet.class, type = SchemaType.ARRAY)))
     public Response getAllSets() {
+        log.infof("This message only appears on the first call and after cache eviction");
         List<EnglishSet> models = setService.getAllSets();
         return Response.ok(models).build();
     }
