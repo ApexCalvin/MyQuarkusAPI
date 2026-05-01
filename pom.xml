@@ -96,6 +96,12 @@
             <artifactId>commons-collections4</artifactId>
             <version>4.5.0</version>
         </dependency>
+        <!-- Apache PDF manipulation -->
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>3.0.7</version>
+        </dependency>
         <!-- JSON utility library -->
         <dependency>
             <groupId>org.json</groupId>
